@@ -2,25 +2,7 @@ import Head from 'next/head'
 import { connectToDatabase } from '../util/db'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useState } from 'react'
-
-type History = {
-  date: string,
-  completed: boolean,
-}
-
-type Habit = {
-  _id: string,
-  name: string,
-  repeats: {
-    mon: string,
-    tue: string,
-    wed: string,
-    thu: string,
-    fri: string,
-    sat: string,
-  },
-  history: [History],
-}
+import { Habit } from '../util/types'
 
 type HomeProps = {
   habitString: string,
@@ -29,8 +11,13 @@ type HomeProps = {
 
 const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomeProps) => {
   const [error, setError] = useState(null)
+  const daysOfTheWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+  const today = daysOfTheWeek[new Date().getDay()]
   if (errorMessage) setError(errorMessage)
   const habits: [Habit] = JSON.parse(habitString)
+  const handleAddHabit = async () => {
+
+  }
   return (
     <>
       <Head>
@@ -42,6 +29,13 @@ const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomePro
           {error}
         </>
       ): null}
+      <>
+        <button
+          onClick={handleAddHabit}
+        >
+          Add Habit
+        </button>
+      </>
       <ul>
         {habits.map((habit, index) => (
           <>
@@ -50,7 +44,7 @@ const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomePro
               <h2>
                 <span>{habit.name}</span>
                 {habit.repeats ? (
-                  <span>: {habit.repeats.mon}</span>
+                  <span>: {habit.repeats[today]}</span>
                 ): null}
               </h2>
             </div>
