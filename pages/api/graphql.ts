@@ -4,11 +4,14 @@ import { connectToDatabase } from '../../util/db'
 
 const typeDefs = gql`
   type Habit {
-    _id: String,
+    _id: ID,
     name: String,
   }
   type Query {
     test: Habit,
+  }
+  type Mutation {
+    addHabit(name: String): Habit,
   }
 `
 const resolvers = {
@@ -19,7 +22,17 @@ const resolvers = {
         .collection('habit_db')
         .findOne({ name: 'test' })
       return test
-    }
+    },
+  },
+  Mutation: {
+    addHabit: async (_parent, { name }, _context) => {
+      const { db } = await connectToDatabase()
+      const newHabit = await db
+        .collection('habit_db')
+        .insertOne({ name })
+      console.log(newHabit)
+      return newHabit.ops[0]
+    },
   }
 }
 
