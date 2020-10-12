@@ -2,7 +2,8 @@ import Head from 'next/head'
 import { connectToDatabase } from '../util/db'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useState } from 'react'
-import { Habit } from '../util/types'
+import AddHabit from './components/AddHabit'
+import { daysOfTheWeek } from '../util/daysOfTheWeek'
 
 type HomeProps = {
   habitString: string,
@@ -11,30 +12,24 @@ type HomeProps = {
 
 const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomeProps) => {
   const [error, setError] = useState(null)
-  const daysOfTheWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+  const [isAddHabit, setIsAddHabit] = useState(false)
+  const [habits, setHabits] = useState(JSON.parse(habitString))
   const today = daysOfTheWeek[new Date().getDay()]
   if (errorMessage) setError(errorMessage)
-  const habits: [Habit] = JSON.parse(habitString)
-  const handleAddHabit = async () => {
-
-  }
   return (
     <>
       <Head>
         <title>GoodHabit</title>
       </Head>
       <h1>GoodHabit</h1>
-      {error ? (
-        <>
-          {error}
-        </>
-      ): null}
+      {error ? (<>{error}</>): null}
       <>
         <button
-          onClick={handleAddHabit}
+          onClick={() => setIsAddHabit(true)}
         >
           Add Habit
         </button>
+        {isAddHabit ? <AddHabit /> : null}
       </>
       <ul>
         {habits.map((habit, index) => (
