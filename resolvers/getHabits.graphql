@@ -1,0 +1,15 @@
+query GetHabits {
+  habits {
+    _id
+    name
+    # repeats {
+    #   mon
+    #   tue
+    #   wed
+    #   thu
+    #   fri
+    #   sat
+    #   sun
+    # }
+  }
+}

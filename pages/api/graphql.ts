@@ -21,7 +21,6 @@ const resolvers = {
       const newHabit = await db
         .collection('habit_db')
         .insertOne({ name })
-      console.log(newHabit)
       return newHabit.ops[0]
     },
     updateHabit: async (_parent, { _id, name }, _context) => {

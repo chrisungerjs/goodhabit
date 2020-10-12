@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import { useMutation } from '@apollo/client'
 import { daysOfTheWeek } from '../util/daysOfTheWeek'
-import { ADD_HABIT } from '../util/mutations'
-import { GET_HABITS } from '../util/queries'
+import { 
+  useAddHabitMutation,
+  GetHabitsDocument,
+} from '../generated/graphql'
 
 const AddHabit: React.FC = () => {
   const [name, setName] = useState('')
+  const [schedule, setSchedule] = useState([])
   const [dayToggle, setDayToggle] = useState('day')
-  const [addHabit] = useMutation(ADD_HABIT)
+  const [addHabit] = useAddHabitMutation()
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     await addHabit({
       variables: { name },
-      refetchQueries: [{ query: GET_HABITS }],
+      refetchQueries: [{ query: GetHabitsDocument }],
     })
   }
   return (

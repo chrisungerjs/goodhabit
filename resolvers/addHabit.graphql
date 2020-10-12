@@ -1,0 +1,6 @@
+mutation AddHabit($name: String!) {
+  addHabit(name: $name) {
+    _id
+    name
+  }
+}

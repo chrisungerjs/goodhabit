@@ -1,0 +1,3 @@
+mutation DeleteHabit($_id: ID!) {
+    deleteHabit(_id: $_id)
+  }
