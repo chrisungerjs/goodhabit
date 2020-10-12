@@ -1,6 +1,7 @@
 import { ApolloServer, gql } from 'apollo-server-micro'
 import Cors from 'micro-cors'
 import { connectToDatabase } from '../../util/db'
+import { ObjectId } from 'mongodb'
 
 const typeDefs = gql`
   type Habit {
@@ -38,8 +39,7 @@ const resolvers = {
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
-        .updateOne({ name: "test" }, { $set: { name: "test it up" } })
-      console.log(updatedHabit.message) 
+        .update({ _id: new ObjectId(_id) }, { $set: { name } })
       return updatedHabit
     }
   }
