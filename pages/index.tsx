@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import AddHabit from './components/AddHabit'
+import AddHabit from '../components/AddHabit'
 import { daysOfTheWeek } from '../util/daysOfTheWeek'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { GET_HABITS } from '../util/queries'
 
 const Home: React.FC = () => {

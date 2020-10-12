@@ -8,3 +8,12 @@ export const ADD_HABIT = gql`
     }
   }
 `
+
+export const UPDATE_HABIT = gql`
+  mutation UpdateHabit($_id: ID!, $name: String!) {
+    updateHabit(_id: $_id, name: $name) {
+      _id
+      name
+    }
+  }
+`

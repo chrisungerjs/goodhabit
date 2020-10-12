@@ -2,7 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { onError } from "apollo-link-error";
 import { createHttpLink } from 'apollo-link-http'
 
-const httpLink = createHttpLink({ uri: '/api/graphql' })
+const uri = 'http://localhost:3000/api/graphql'
+const httpLink = createHttpLink({ uri })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
