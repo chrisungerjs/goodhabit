@@ -12,7 +12,7 @@ const AddHabit: React.FC = () => {
     e.preventDefault()
     await addHabit({
       variables: { name },
-      refetchQueries: [{ query: GET_HABITS }] 
+      refetchQueries: [{ query: GET_HABITS }],
     })
   }
   return (
@@ -30,7 +30,7 @@ const AddHabit: React.FC = () => {
             <label htmlFor="daysOfWeek">on</label>
             <select id="daysOfWeek">
               {daysOfTheWeek.map(day => (
-                <option value={day}>{day}</option>
+                <option key={day} value={day}>{day}</option>
               ))}
             </select>
           </>

@@ -17,3 +17,11 @@ export const UPDATE_HABIT = gql`
     }
   }
 `
+
+export const DELETE_HABIT = gql`
+  mutation DeleteHabit($_id: ID!) {
+    deleteHabit(_id: $_id) {
+      success
+    }
+  }
+`

@@ -1,31 +1,11 @@
-import { ApolloServer, gql } from 'apollo-server-micro'
+import { ApolloServer } from 'apollo-server-micro'
 import Cors from 'micro-cors'
 import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
+import { typeDefs } from '../../util/typeDefs'
 
-const typeDefs = gql`
-  type Habit {
-    _id: ID,
-    name: String,
-  }
-  type Query {
-    test: Habit,
-    habits: [Habit],
-  }
-  type Mutation {
-    addHabit(name: String): Habit,
-    updateHabit(_id: ID, name: String): Habit,
-  }
-`
 const resolvers = {
   Query: {
-    test: async (_parent, _args, _context) => {
-      const { db } = await connectToDatabase()
-      const test = await db
-        .collection('habit_db')
-        .findOne({ name: 'test' })
-      return test
-    },
     habits: async (_parent, _args, _context) => {
       const { db } = await connectToDatabase()
       const allHabits = await db
@@ -50,7 +30,14 @@ const resolvers = {
         .collection('habit_db')
         .findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: { name } })
       return updatedHabit.value
-    }
+    },
+    deleteHabit: async (_parent, { _id }, _context) => {
+      const { db } = await connectToDatabase()
+      const deletedHabit = await db
+        .collection('habit_db')
+        .findOneAndDelete({ _id: new ObjectId(_id) })
+      return !!deletedHabit.value
+    },
   }
 }
 
