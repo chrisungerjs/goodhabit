@@ -10,6 +10,7 @@ const typeDefs = gql`
   }
   type Query {
     test: Habit,
+    habits: [Habit],
   }
   type Mutation {
     addHabit(name: String): Habit,
@@ -25,6 +26,14 @@ const resolvers = {
         .findOne({ name: 'test' })
       return test
     },
+    habits: async (_parent, _args, _context) => {
+      const { db } = await connectToDatabase()
+      const allHabits = await db
+        .collection('habit_db')
+        .find({})
+        .toArray()
+      return allHabits
+    }
   },
   Mutation: {
     addHabit: async (_parent, { name }, _context) => {

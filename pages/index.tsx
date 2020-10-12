@@ -1,28 +1,23 @@
 import Head from 'next/head'
-import { connectToDatabase } from '../util/db'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useState } from 'react'
 import AddHabit from './components/AddHabit'
 import { daysOfTheWeek } from '../util/daysOfTheWeek'
+import { gql, useQuery } from '@apollo/client'
+import { GET_HABITS } from '../util/queries'
 
-type HomeProps = {
-  habitString: string,
-  errorMessage?: string,
-}
-
-const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomeProps) => {
-  const [error, setError] = useState(null)
+const Home: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_HABITS)
   const [isAddHabit, setIsAddHabit] = useState(false)
-  const [habits, setHabits] = useState(JSON.parse(habitString))
+  if (loading) return <>Loading...</>
+  if (error) return <>Error</>
   const today = daysOfTheWeek[new Date().getDay()]
-  if (errorMessage) setError(errorMessage)
+  console.log(data)
   return (
     <>
       <Head>
         <title>GoodHabit</title>
       </Head>
       <h1>GoodHabit</h1>
-      {error ? (<>{error}</>): null}
       <>
         <button
           onClick={() => setIsAddHabit(true)}
@@ -32,10 +27,10 @@ const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomePro
         {isAddHabit ? <AddHabit /> : null}
       </>
       <ul>
-        {habits.map((habit, index) => (
+        {data.habits.map((habit) => (
           <>
-            <li key={index}>{JSON.stringify(habit)}</li>
             <div key={habit._id}>
+              <>{JSON.stringify(habit)}</>
               <h2>
                 <span>{habit.name}</span>
                 {habit.repeats ? (
@@ -48,19 +43,6 @@ const Home: React.FC<HomeProps> = ({ habitString, errorMessage = null }: HomePro
       </ul>
     </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (_context: GetServerSidePropsContext) => {
-  const { client, db } = await connectToDatabase()
-  const isConnected = await client?.isConnected()
-  if (!isConnected) return { props: { errorMessage: 'database not connected' } }
-  const habits = await db
-    .collection('habit_db')
-    .find({})
-    .sort({})
-    .limit(20)
-    .toArray()
-  return { props: { habitString: JSON.stringify(habits) } }
 }
 
 export default Home
