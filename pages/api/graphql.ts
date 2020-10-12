@@ -39,8 +39,8 @@ const resolvers = {
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
-        .update({ _id: new ObjectId(_id) }, { $set: { name } })
-      return updatedHabit
+        .findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: { name } })
+      return updatedHabit.value
     }
   }
 }
