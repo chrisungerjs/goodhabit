@@ -11,13 +11,23 @@ export const typeDefs = gql`
     sun
   }
   type Instance {
-    dayOfWeek: Day,
-    
+    dayOfWeek: Day!,
+    instanceName: String,
+  }
+  type Metric {
+    name: String!,
+    value: String,
+  }
+  type Record {
+    date: String!,
+    completed: Boolean!,
+    tracking: [Metric],
   }
   type Habit {
     _id: ID,
-    name: String,
+    name: String!,
     schedule: [Instance],
+    history: [Record],
   }
   type Query {
     habits: [Habit],

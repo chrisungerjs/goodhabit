@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-micro'
 import Cors from 'micro-cors'
 import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
-import { typeDefs } from '../../util/typeDefs'
+import { typeDefs } from '../../util/schema'
 
 const resolvers = {
   Query: {
