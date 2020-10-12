@@ -12,9 +12,17 @@ export const typeDefs = gql`
   }
   type Instance {
     dayOfWeek: Day!,
-    instanceName: String,
+    customName: String,
+  }
+  input InstanceInput {
+    dayOfWeek: Day!,
+    customName: String,
   }
   type Metric {
+    name: String!,
+    value: String,
+  }
+  input MetricInput {
     name: String!,
     value: String,
   }
@@ -23,11 +31,21 @@ export const typeDefs = gql`
     completed: Boolean!,
     tracking: [Metric],
   }
+  input RecordInput {
+    date: String!,
+    completed: Boolean!,
+    tracking: [MetricInput],
+  }
   type Habit {
     _id: ID,
     name: String!,
     schedule: [Instance],
     history: [Record],
+  }
+  input HabitInput {
+    name: String!,
+    schedule: [InstanceInput],
+    history: [RecordInput],
   }
   type Query {
     habits: [Habit],

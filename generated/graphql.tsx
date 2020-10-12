@@ -26,11 +26,21 @@ export enum Day {
 export type Instance = {
   __typename?: 'Instance';
   dayOfWeek: Day;
-  instanceName?: Maybe<Scalars['String']>;
+  customName?: Maybe<Scalars['String']>;
+};
+
+export type InstanceInput = {
+  dayOfWeek: Day;
+  customName?: Maybe<Scalars['String']>;
 };
 
 export type Metric = {
   __typename?: 'Metric';
+  name: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+};
+
+export type MetricInput = {
   name: Scalars['String'];
   value?: Maybe<Scalars['String']>;
 };
@@ -42,12 +52,24 @@ export type Record = {
   tracking?: Maybe<Array<Maybe<Metric>>>;
 };
 
+export type RecordInput = {
+  date: Scalars['String'];
+  completed: Scalars['Boolean'];
+  tracking?: Maybe<Array<Maybe<MetricInput>>>;
+};
+
 export type Habit = {
   __typename?: 'Habit';
   _id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
   schedule?: Maybe<Array<Maybe<Instance>>>;
   history?: Maybe<Array<Maybe<Record>>>;
+};
+
+export type HabitInput = {
+  name: Scalars['String'];
+  schedule?: Maybe<Array<Maybe<InstanceInput>>>;
+  history?: Maybe<Array<Maybe<RecordInput>>>;
 };
 
 export type Query = {
