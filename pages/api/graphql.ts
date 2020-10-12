@@ -12,6 +12,7 @@ const typeDefs = gql`
   }
   type Mutation {
     addHabit(name: String): Habit,
+    updateHabit(_id: ID, name: String): Habit,
   }
 `
 const resolvers = {
@@ -33,6 +34,14 @@ const resolvers = {
       console.log(newHabit)
       return newHabit.ops[0]
     },
+    updateHabit: async (_parent, { _id, name }, _context) => {
+      const { db } = await connectToDatabase()
+      const updatedHabit = await db
+        .collection('habit_db')
+        .updateOne({ name: "test" }, { $set: { name: "test it up" } })
+      console.log(updatedHabit.message) 
+      return updatedHabit
+    }
   }
 }
 
