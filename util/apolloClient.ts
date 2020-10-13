@@ -17,6 +17,16 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
 
 const link = logLink.concat(httpLink as any) as any
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        habits: {
+          merge: false,
+        }
+      }
+    },
+  },
+})
 
 export const client = new ApolloClient({ cache, link, })
