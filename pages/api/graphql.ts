@@ -16,11 +16,11 @@ const resolvers = {
     }
   },
   Mutation: {
-    addHabit: async (_parent, { name }, _context) => {
+    addHabit: async (_parent, { habit }, _context) => {
       const { db } = await connectToDatabase()
       const newHabit = await db
         .collection('habit_db')
-        .insertOne({ name })
+        .insertOne({ ...habit })
       return newHabit.ops[0]
     },
     updateHabit: async (_parent, { _id, name }, _context) => {

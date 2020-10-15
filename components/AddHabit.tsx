@@ -6,14 +6,20 @@ import {
 } from '../generated/graphql'
 
 const AddHabit: React.FC = () => {
-  const [name, setName] = useState('')
+  // const [name, setName] = useState('')
   const [schedule, setSchedule] = useState([])
   const [dayToggle, setDayToggle] = useState('day')
+
+  const [habit, setHabit] = useState({
+    name: '',
+    schedule: [],
+  })
+
   const [addHabit] = useAddHabitMutation()
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     await addHabit({
-      variables: { name },
+      variables: { habit },
       refetchQueries: [{ query: GetHabitsDocument }],
     })
   }
@@ -21,7 +27,7 @@ const AddHabit: React.FC = () => {
     <>
       <form onSubmit={handleAddHabit}>
         <label htmlFor="name">I'm going to</label>
-        <input type="text" id="name" value={name} onChange={e => setName(e.target.value)} />
+        <input type="text" id="name" value={habit.name} onChange={e => setHabit({...habit, name: e.target.value})} />
         <label htmlFor="dayToggle">every</label>
         <select value={dayToggle} id="dayToggle" onChange={e => setDayToggle(e.target.value)}>
           <option value="day">day</option>

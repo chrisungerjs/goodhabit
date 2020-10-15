@@ -1,6 +1,10 @@
-mutation AddHabit($name: String!) {
-  addHabit(name: $name) {
+mutation AddHabit($habit: HabitInput) {
+  addHabit(habit: $habit) {
     _id
     name
+    schedule {
+      dayOfWeek
+      customName
+    }
   }
 }

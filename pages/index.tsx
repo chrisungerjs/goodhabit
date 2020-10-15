@@ -11,7 +11,7 @@ import {
 const Home: React.FC = () => {
   const { loading, error, data } = useGetHabitsQuery()
   const [deleteHabit] = useDeleteHabitMutation()
-  const [isAddHabit, setIsAddHabit] = useState(false)
+  const [isAddHabit, setIsAddHabit] = useState(true)
   if (loading) return <>Loading...</>
   if (error) return <>Error</>
   const today = daysOfTheWeek[new Date().getDay()]

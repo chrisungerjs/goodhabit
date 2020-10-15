@@ -51,7 +51,7 @@ export const typeDefs = gql`
     habits: [Habit],
   }
   type Mutation {
-    addHabit(name: String): Habit,
+    addHabit(habit: HabitInput): Habit,
     updateHabit(_id: ID, name: String): Habit,
     deleteHabit(_id: ID): Boolean,
   }

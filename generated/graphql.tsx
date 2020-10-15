@@ -86,7 +86,7 @@ export type Mutation = {
 
 
 export type MutationAddHabitArgs = {
-  name?: Maybe<Scalars['String']>;
+  habit?: Maybe<HabitInput>;
 };
 
 
@@ -107,7 +107,7 @@ export enum CacheControlScope {
 
 
 export type AddHabitMutationVariables = Exact<{
-  name: Scalars['String'];
+  habit?: Maybe<HabitInput>;
 }>;
 
 
@@ -116,6 +116,10 @@ export type AddHabitMutation = (
   & { addHabit?: Maybe<(
     { __typename?: 'Habit' }
     & Pick<Habit, '_id' | 'name'>
+    & { schedule?: Maybe<Array<Maybe<(
+      { __typename?: 'Instance' }
+      & Pick<Instance, 'dayOfWeek' | 'customName'>
+    )>>> }
   )> }
 );
 
@@ -156,10 +160,14 @@ export type UpdateHabitMutation = (
 
 
 export const AddHabitDocument = gql`
-    mutation AddHabit($name: String!) {
-  addHabit(name: $name) {
+    mutation AddHabit($habit: HabitInput) {
+  addHabit(habit: $habit) {
     _id
     name
+    schedule {
+      dayOfWeek
+      customName
+    }
   }
 }
     `;
@@ -178,7 +186,7 @@ export type AddHabitMutationFn = Apollo.MutationFunction<AddHabitMutation, AddHa
  * @example
  * const [addHabitMutation, { data, loading, error }] = useAddHabitMutation({
  *   variables: {
- *      name: // value for 'name'
+ *      habit: // value for 'habit'
  *   },
  * });
  */

@@ -29,4 +29,4 @@ const cache = new InMemoryCache({
   },
 })
 
-export const client = new ApolloClient({ cache, link, })
+export const client = new ApolloClient({ cache, link })
