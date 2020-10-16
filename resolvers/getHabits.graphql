@@ -2,14 +2,35 @@ query GetHabits {
   habits {
     _id
     name
-    # repeats {
-    #   mon
-    #   tue
-    #   wed
-    #   thu
-    #   fri
-    #   sat
-    #   sun
-    # }
+    schedule {
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
+    }
   }
 }

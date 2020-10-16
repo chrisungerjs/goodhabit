@@ -33,7 +33,7 @@ const AddHabit: React.FC = () => {
           type="text"
           id="name"
           value={habit.name} 
-          onChange={e => setHabit(habit => ({...habit, name: e.target.value}))} 
+          onChange={e => setHabit({...habit, name: e.target.value})} 
         />
         <label htmlFor="dayToggle"></label>
         <select value={dayToggle} id="dayToggle" onChange={e => setDayToggle(e.target.value)}>

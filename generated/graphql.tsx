@@ -173,6 +173,31 @@ export type GetHabitsQuery = (
   & { habits?: Maybe<Array<Maybe<(
     { __typename?: 'Habit' }
     & Pick<Habit, '_id' | 'name'>
+    & { schedule?: Maybe<(
+      { __typename?: 'Schedule' }
+      & { mon?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, tue?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, wed?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, thu?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, fri?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sat?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sun?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )> }
+    )> }
   )>>> }
 );
 
@@ -187,6 +212,31 @@ export type UpdateHabitMutation = (
   & { updateHabit?: Maybe<(
     { __typename?: 'Habit' }
     & Pick<Habit, '_id' | 'name'>
+    & { schedule?: Maybe<(
+      { __typename?: 'Schedule' }
+      & { mon?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, tue?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, wed?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, thu?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, fri?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sat?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sun?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )> }
+    )> }
   )> }
 );
 
@@ -289,6 +339,36 @@ export const GetHabitsDocument = gql`
   habits {
     _id
     name
+    schedule {
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
+    }
   }
 }
     `;
@@ -322,6 +402,36 @@ export const UpdateHabitDocument = gql`
   updateHabit(_id: $_id, name: $name) {
     _id
     name
+    schedule {
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
+    }
   }
 }
     `;
