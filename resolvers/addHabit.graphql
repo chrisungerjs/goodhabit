@@ -3,8 +3,34 @@ mutation AddHabit($habit: HabitInput) {
     _id
     name
     schedule {
-      dayOfWeek
-      customName
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
     }
   }
 }

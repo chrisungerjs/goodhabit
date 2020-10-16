@@ -1,22 +1,31 @@
 import { gql } from '@apollo/client'
 
 export const typeDefs = gql`
-  enum Day {
-    mon
-    tue
-    wed
-    thu
-    fri
-    sat
-    sun
-  }
   type Instance {
-    dayOfWeek: Day!,
+    doesRepeat: Boolean,
     customName: String,
   }
   input InstanceInput {
-    dayOfWeek: Day!,
+    doesRepeat: Boolean,
     customName: String,
+  }
+  type Schedule {
+    mon: Instance,
+    tue: Instance,
+    wed: Instance,
+    thu: Instance,
+    fri: Instance,
+    sat: Instance,
+    sun: Instance,
+  }
+  input ScheduleInput {
+    mon: InstanceInput,
+    tue: InstanceInput,
+    wed: InstanceInput,
+    thu: InstanceInput,
+    fri: InstanceInput,
+    sat: InstanceInput,
+    sun: InstanceInput,
   }
   type Metric {
     name: String!,
@@ -39,12 +48,12 @@ export const typeDefs = gql`
   type Habit {
     _id: ID,
     name: String!,
-    schedule: [Instance],
+    schedule: Schedule,
     history: [Record],
   }
   input HabitInput {
     name: String!,
-    schedule: [InstanceInput],
+    schedule: ScheduleInput,
     history: [RecordInput],
   }
   type Query {

@@ -6,15 +6,17 @@ import {
 } from '../generated/graphql'
 
 const AddHabit: React.FC = () => {
-  // const [name, setName] = useState('')
-  const [schedule, setSchedule] = useState([])
   const [dayToggle, setDayToggle] = useState('day')
-
   const [habit, setHabit] = useState({
     name: '',
-    schedule: [],
+    schedule: daysOfTheWeek.reduce((a, b) => (
+      a[b] = {
+        doesRepeat: true,
+        customName: '',
+      }, a
+    ), {})
   })
-
+  console.log(habit)
   const [addHabit] = useAddHabitMutation()
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -27,22 +29,48 @@ const AddHabit: React.FC = () => {
     <>
       <form onSubmit={handleAddHabit}>
         <label htmlFor="name">I'm going to</label>
-        <input type="text" id="name" value={habit.name} onChange={e => setHabit({...habit, name: e.target.value})} />
-        <label htmlFor="dayToggle">every</label>
+        <input
+          type="text"
+          id="name"
+          value={habit.name} 
+          onChange={e => setHabit(habit => ({...habit, name: e.target.value}))} 
+        />
+        <label htmlFor="dayToggle"></label>
         <select value={dayToggle} id="dayToggle" onChange={e => setDayToggle(e.target.value)}>
-          <option value="day">day</option>
-          <option value="week">week</option>
+          <option value="day">every day</option>
+          <option value="week">on specific days</option>
         </select>
+        <br/>
         {dayToggle === 'week' ? (
           <>
-            <label htmlFor="daysOfWeek">on</label>
-            <select id="daysOfWeek">
-              {daysOfTheWeek.map(day => (
-                <option key={day} value={day}>{day}</option>
-              ))}
-            </select>
+            {daysOfTheWeek.map(day => (
+              <>
+                <input
+                  type="checkbox"
+                  defaultChecked={true}
+                  name=""
+                  id={day}
+                  onChange={(e) => {
+                    const checkedState = e.target.checked
+                    setHabit(habit => ({
+                      ...habit, 
+                      schedule: { 
+                        ...habit.schedule, 
+                        [day]: { 
+                          ...habit.schedule[day],
+                          doesRepeat: checkedState 
+                        }
+                      } 
+                    }))
+                  }}
+                />
+                <label htmlFor={day}>{day}</label>
+                <br/>
+              </>
+            ))}
           </>
         ): null}
+        <br/>
         <button>Submit</button>
       </form>
     </>

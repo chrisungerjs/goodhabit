@@ -13,25 +13,36 @@ export type Scalars = {
   Upload: any;
 };
 
-export enum Day {
-  Mon = 'mon',
-  Tue = 'tue',
-  Wed = 'wed',
-  Thu = 'thu',
-  Fri = 'fri',
-  Sat = 'sat',
-  Sun = 'sun'
-}
-
 export type Instance = {
   __typename?: 'Instance';
-  dayOfWeek: Day;
+  doesRepeat?: Maybe<Scalars['Boolean']>;
   customName?: Maybe<Scalars['String']>;
 };
 
 export type InstanceInput = {
-  dayOfWeek: Day;
+  doesRepeat?: Maybe<Scalars['Boolean']>;
   customName?: Maybe<Scalars['String']>;
+};
+
+export type Schedule = {
+  __typename?: 'Schedule';
+  mon?: Maybe<Instance>;
+  tue?: Maybe<Instance>;
+  wed?: Maybe<Instance>;
+  thu?: Maybe<Instance>;
+  fri?: Maybe<Instance>;
+  sat?: Maybe<Instance>;
+  sun?: Maybe<Instance>;
+};
+
+export type ScheduleInput = {
+  mon?: Maybe<InstanceInput>;
+  tue?: Maybe<InstanceInput>;
+  wed?: Maybe<InstanceInput>;
+  thu?: Maybe<InstanceInput>;
+  fri?: Maybe<InstanceInput>;
+  sat?: Maybe<InstanceInput>;
+  sun?: Maybe<InstanceInput>;
 };
 
 export type Metric = {
@@ -62,13 +73,13 @@ export type Habit = {
   __typename?: 'Habit';
   _id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
-  schedule?: Maybe<Array<Maybe<Instance>>>;
+  schedule?: Maybe<Schedule>;
   history?: Maybe<Array<Maybe<Record>>>;
 };
 
 export type HabitInput = {
   name: Scalars['String'];
-  schedule?: Maybe<Array<Maybe<InstanceInput>>>;
+  schedule?: Maybe<ScheduleInput>;
   history?: Maybe<Array<Maybe<RecordInput>>>;
 };
 
@@ -116,10 +127,31 @@ export type AddHabitMutation = (
   & { addHabit?: Maybe<(
     { __typename?: 'Habit' }
     & Pick<Habit, '_id' | 'name'>
-    & { schedule?: Maybe<Array<Maybe<(
-      { __typename?: 'Instance' }
-      & Pick<Instance, 'dayOfWeek' | 'customName'>
-    )>>> }
+    & { schedule?: Maybe<(
+      { __typename?: 'Schedule' }
+      & { mon?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, tue?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, wed?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, thu?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, fri?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sat?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sun?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )> }
+    )> }
   )> }
 );
 
@@ -165,8 +197,34 @@ export const AddHabitDocument = gql`
     _id
     name
     schedule {
-      dayOfWeek
-      customName
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
     }
   }
 }
