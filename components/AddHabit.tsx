@@ -53,18 +53,36 @@ const AddHabit: React.FC = () => {
                   onChange={(e) => {
                     const checkedState = e.target.checked
                     setHabit(habit => ({
-                      ...habit, 
-                      schedule: { 
+                      ...habit,
+                      schedule: {
                         ...habit.schedule, 
-                        [day]: { 
+                        [day]: {
                           ...habit.schedule[day],
-                          doesRepeat: checkedState 
+                          doesRepeat: checkedState,
                         }
-                      } 
+                      }
                     }))
                   }}
                 />
                 <label htmlFor={day}>{day}</label>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    const nameState = e.target.value
+                    setHabit(habit => ({
+                      ...habit,
+                      schedule: {
+                        ...habit.schedule,
+                        [day]: {
+                          ...habit.schedule[day],
+                          customName: nameState,
+                        }
+                      }
+                    }))
+                  }}
+                />
                 <br/>
               </>
             ))}
