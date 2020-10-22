@@ -102,8 +102,7 @@ export type MutationAddHabitArgs = {
 
 
 export type MutationUpdateHabitArgs = {
-  _id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  habit?: Maybe<HabitInput>;
 };
 
 
@@ -197,13 +196,19 @@ export type GetHabitsQuery = (
         { __typename?: 'Instance' }
         & Pick<Instance, 'doesRepeat' | 'customName'>
       )> }
-    )> }
+    )>, history?: Maybe<Array<Maybe<(
+      { __typename?: 'Record' }
+      & Pick<Record, 'date' | 'completed'>
+      & { tracking?: Maybe<Array<Maybe<(
+        { __typename?: 'Metric' }
+        & Pick<Metric, 'name' | 'value'>
+      )>>> }
+    )>>> }
   )>>> }
 );
 
 export type UpdateHabitMutationVariables = Exact<{
-  _id: Scalars['ID'];
-  name: Scalars['String'];
+  habit: HabitInput;
 }>;
 
 
@@ -236,7 +241,14 @@ export type UpdateHabitMutation = (
         { __typename?: 'Instance' }
         & Pick<Instance, 'doesRepeat' | 'customName'>
       )> }
-    )> }
+    )>, history?: Maybe<Array<Maybe<(
+      { __typename?: 'Record' }
+      & Pick<Record, 'date' | 'completed'>
+      & { tracking?: Maybe<Array<Maybe<(
+        { __typename?: 'Metric' }
+        & Pick<Metric, 'name' | 'value'>
+      )>>> }
+    )>>> }
   )> }
 );
 
@@ -369,6 +381,14 @@ export const GetHabitsDocument = gql`
         customName
       }
     }
+    history {
+      date
+      completed
+      tracking {
+        name
+        value
+      }
+    }
   }
 }
     `;
@@ -398,8 +418,8 @@ export type GetHabitsQueryHookResult = ReturnType<typeof useGetHabitsQuery>;
 export type GetHabitsLazyQueryHookResult = ReturnType<typeof useGetHabitsLazyQuery>;
 export type GetHabitsQueryResult = Apollo.QueryResult<GetHabitsQuery, GetHabitsQueryVariables>;
 export const UpdateHabitDocument = gql`
-    mutation UpdateHabit($_id: ID!, $name: String!) {
-  updateHabit(_id: $_id, name: $name) {
+    mutation UpdateHabit($habit: HabitInput!) {
+  updateHabit(habit: $habit) {
     _id
     name
     schedule {
@@ -432,6 +452,14 @@ export const UpdateHabitDocument = gql`
         customName
       }
     }
+    history {
+      date
+      completed
+      tracking {
+        name
+        value
+      }
+    }
   }
 }
     `;
@@ -450,8 +478,7 @@ export type UpdateHabitMutationFn = Apollo.MutationFunction<UpdateHabitMutation,
  * @example
  * const [updateHabitMutation, { data, loading, error }] = useUpdateHabitMutation({
  *   variables: {
- *      _id: // value for '_id'
- *      name: // value for 'name'
+ *      habit: // value for 'habit'
  *   },
  * });
  */

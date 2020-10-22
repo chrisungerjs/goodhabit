@@ -1,5 +1,5 @@
-mutation UpdateHabit($_id: ID!, $name: String!) {
-  updateHabit(_id: $_id, name: $name) {
+mutation UpdateHabit($habit: HabitInput!) {
+  updateHabit(habit: $habit) {
     _id
     name
     schedule {
@@ -30,6 +30,14 @@ mutation UpdateHabit($_id: ID!, $name: String!) {
       sun {
         doesRepeat
         customName
+      }
+    }
+    history {
+      date
+      completed
+      tracking {
+        name
+        value
       }
     }
   }

@@ -32,8 +32,9 @@ const AddHabit: React.FC = () => {
         <input
           type="text"
           id="name"
-          value={habit.name} 
-          onChange={e => setHabit({...habit, name: e.target.value})} 
+          placeholder="habit"
+          value={habit.name}
+          onChange={e => setHabit({...habit, name: e.target.value})}
         />
         <label htmlFor="dayToggle"></label>
         <select value={dayToggle} id="dayToggle" onChange={e => setDayToggle(e.target.value)}>
@@ -44,18 +45,17 @@ const AddHabit: React.FC = () => {
         {dayToggle === 'week' ? (
           <>
             {daysOfTheWeek.map(day => (
-              <>
+              <div key={day}>
                 <input
                   type="checkbox"
-                  defaultChecked={true}
-                  name=""
+                  defaultChecked={habit.schedule[day].doesRepeat}
                   id={day}
                   onChange={(e) => {
                     const checkedState = e.target.checked
                     setHabit(habit => ({
                       ...habit,
                       schedule: {
-                        ...habit.schedule, 
+                        ...habit.schedule,
                         [day]: {
                           ...habit.schedule[day],
                           doesRepeat: checkedState,
@@ -67,8 +67,9 @@ const AddHabit: React.FC = () => {
                 <label htmlFor={day}>{day}</label>
                 <input
                   type="text"
-                  name=""
                   id=""
+                  placeholder="default"
+                  value={habit.schedule[day].customName}
                   onChange={(e) => {
                     const nameState = e.target.value
                     setHabit(habit => ({
@@ -84,7 +85,7 @@ const AddHabit: React.FC = () => {
                   }}
                 />
                 <br/>
-              </>
+              </div>
             ))}
           </>
         ): null}

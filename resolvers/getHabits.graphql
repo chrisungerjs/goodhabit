@@ -32,5 +32,13 @@ query GetHabits {
         customName
       }
     }
+    history {
+      date
+      completed
+      tracking {
+        name
+        value
+      }
+    }
   }
 }

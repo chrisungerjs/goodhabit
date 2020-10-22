@@ -52,6 +52,7 @@ export const typeDefs = gql`
     history: [Record],
   }
   input HabitInput {
+    _id: ID,
     name: String!,
     schedule: ScheduleInput,
     history: [RecordInput],
@@ -61,7 +62,7 @@ export const typeDefs = gql`
   }
   type Mutation {
     addHabit(habit: HabitInput): Habit,
-    updateHabit(_id: ID, name: String): Habit,
+    updateHabit(habit: HabitInput): Habit,
     deleteHabit(_id: ID): Boolean,
   }
 `

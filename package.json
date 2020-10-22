@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.3",
+    "@types/micro-cors": "^0.1.1",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-server-micro": "^2.18.2",

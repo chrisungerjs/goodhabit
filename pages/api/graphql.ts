@@ -23,11 +23,11 @@ const resolvers = {
         .insertOne({ ...habit })
       return newHabit.ops[0]
     },
-    updateHabit: async (_parent, { _id, name }, _context) => {
+    updateHabit: async (_parent, { habit }, _context) => {
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
-        .findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: { name } })
+        .findOneAndUpdate({ _id: new ObjectId(habit._id) }, { $set: { ...habit } })
       return updatedHabit.value
     },
     deleteHabit: async (_parent, { _id }, _context) => {
