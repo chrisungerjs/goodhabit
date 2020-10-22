@@ -16,7 +16,6 @@ const AddHabit: React.FC = () => {
       }, a
     ), {})
   })
-  console.log(habit)
   const [addHabit] = useAddHabitMutation()
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -36,7 +35,11 @@ const AddHabit: React.FC = () => {
           onChange={e => setHabit({...habit, name: e.target.value})}
         />
         <label htmlFor="dayToggle"></label>
-        <select value={dayToggle} id="dayToggle" onChange={e => setDayToggle(e.target.value)}>
+        <select 
+          value={dayToggle}
+          id="dayToggle"
+          onChange={e => setDayToggle(e.target.value)}
+        >
           <option value="day">every day</option>
           <option value="week">on specific days</option>
         </select>

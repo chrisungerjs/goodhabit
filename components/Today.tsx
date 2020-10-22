@@ -1,4 +1,3 @@
-import { arch } from 'process'
 import { useState } from 'react'
 import { 
   GetHabitsDocument, 
@@ -22,7 +21,7 @@ const Today: React.FC = () => {
     data.habits.reduce((a, b) => (
       a[b._id] = {
         isComplete:
-          b.history && b.history[0].date === archiveDate
+          b.history?.length && b.history[0].date === archiveDate
           ? true
           : false
       }, a
