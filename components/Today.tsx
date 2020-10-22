@@ -6,6 +6,7 @@ import {
   useUpdateHistoryMutation,
 } from '../generated/graphql'
 import { daysOfTheWeek } from '../util/daysOfTheWeek'
+import HabitCard from './HabitCard'
 
 const today = daysOfTheWeek[new Date().getDay()]
 const archiveDate = new Date().toLocaleDateString(undefined, {
@@ -13,7 +14,6 @@ const archiveDate = new Date().toLocaleDateString(undefined, {
   month: 'numeric',
   year: 'numeric',
 })
-
 const Today: React.FC = () => {
   const { data } = useGetHabitsQuery()
   const [updateHistory] = useUpdateHistoryMutation()
@@ -42,24 +42,14 @@ const Today: React.FC = () => {
     <>
       {data?.habits && habitStatusMap ? (
         data.habits.filter((habit: Habit) => habit.schedule[today].doesRepeat).map(habit => (
-          <div key={habit._id} style={{
-            textDecoration: habitStatusMap[habit._id]?.isComplete ? 'line-through' : 'none',
-            color: habitStatusMap[habit._id].isComplete ? '#777' : '#000',
-          }}>
-            <h2>
-              <span>{habit.name}</span>
-              {habit.schedule[today].customName ? <span>: {habit.schedule[today].customName}</span> : null}
-              <span>
-                <input
-                  type="checkbox"
-                  defaultChecked={habitStatusMap[habit._id].isComplete}
-                  onChange={(e) => handleChecked(e, habit)}
-                  />
-              </span>
-            </h2>
-          </div>
+          <HabitCard
+            habit={habit}
+            habitStatusMap={habitStatusMap}
+            handleChecked={handleChecked}
+            today={today}
+          />
         ))
-        ) : null}
+      ) : null}
     </>
   )
 }
