@@ -22,9 +22,12 @@ const Today: React.FC = () => {
   return (
     <>
       <h1>Today</h1>
-      {data.habits ? (
-        data.habits.filter((habit) => habit.schedule[today].doesRepeat).map(habit => (
-          <div key={habit._id}>
+      {data?.habits ? (
+        data.habits.filter((habit: Habit) => habit.schedule[today].doesRepeat).map(habit => (
+          <div key={habit._id} style={{ 
+            textDecoration: habitStatusMap[habit._id].isComplete ? 'line-through' : 'none',
+            color: habitStatusMap[habit._id].isComplete ? '#777' : '#000',
+          }}>
             <h2>
               <span>{habit.name}</span>
               {habit.schedule[today].customName ? <span>: {habit.schedule[today].customName}</span> : null}
