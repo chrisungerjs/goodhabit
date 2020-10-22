@@ -27,7 +27,21 @@ const resolvers = {
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
-        .findOneAndUpdate({ _id: new ObjectId(habit._id) }, { $set: { ...habit } })
+        .findOneAndUpdate(
+          { _id: new ObjectId(habit._id) },
+          { $set: { ...habit } },
+          { upsert: true },
+        )
+      return updatedHabit.value
+    },
+    updateHistory: async (_parent, { _id, historyInput }, _context) => {
+      const { db } = await connectToDatabase()
+      const updatedHabit = await db
+        .collection('habit_db')
+        .findOneAndUpdate(
+          { _id: new ObjectId(_id) },
+          { $addToSet: { history: historyInput } },
+        )
       return updatedHabit.value
     },
     deleteHabit: async (_parent, { _id }, _context) => {

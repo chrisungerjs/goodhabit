@@ -32,7 +32,6 @@ const AddHabit: React.FC = () => {
         <input
           type="text"
           id="name"
-          placeholder="habit"
           value={habit.name}
           onChange={e => setHabit({...habit, name: e.target.value})}
         />

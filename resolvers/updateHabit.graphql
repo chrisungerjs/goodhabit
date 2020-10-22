@@ -34,7 +34,6 @@ mutation UpdateHabit($habit: HabitInput!) {
     }
     history {
       date
-      completed
       tracking {
         name
         value

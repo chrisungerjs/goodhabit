@@ -35,27 +35,25 @@ export const typeDefs = gql`
     name: String!,
     value: String,
   }
-  type Record {
+  type History {
     date: String!,
-    completed: Boolean!,
     tracking: [Metric],
   }
-  input RecordInput {
+  input HistoryInput {
     date: String!,
-    completed: Boolean!,
     tracking: [MetricInput],
   }
   type Habit {
     _id: ID,
     name: String!,
     schedule: Schedule,
-    history: [Record],
+    history: [History],
   }
   input HabitInput {
     _id: ID,
     name: String!,
     schedule: ScheduleInput,
-    history: [RecordInput],
+    history: [HistoryInput],
   }
   type Query {
     habits: [Habit],
@@ -64,5 +62,6 @@ export const typeDefs = gql`
     addHabit(habit: HabitInput): Habit,
     updateHabit(habit: HabitInput): Habit,
     deleteHabit(_id: ID): Boolean,
+    updateHistory(_id: ID, historyInput: HistoryInput): Habit,
   }
 `

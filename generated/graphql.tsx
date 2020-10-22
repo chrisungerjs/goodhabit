@@ -56,16 +56,14 @@ export type MetricInput = {
   value?: Maybe<Scalars['String']>;
 };
 
-export type Record = {
-  __typename?: 'Record';
+export type History = {
+  __typename?: 'History';
   date: Scalars['String'];
-  completed: Scalars['Boolean'];
   tracking?: Maybe<Array<Maybe<Metric>>>;
 };
 
-export type RecordInput = {
+export type HistoryInput = {
   date: Scalars['String'];
-  completed: Scalars['Boolean'];
   tracking?: Maybe<Array<Maybe<MetricInput>>>;
 };
 
@@ -74,13 +72,14 @@ export type Habit = {
   _id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
   schedule?: Maybe<Schedule>;
-  history?: Maybe<Array<Maybe<Record>>>;
+  history?: Maybe<Array<Maybe<History>>>;
 };
 
 export type HabitInput = {
+  _id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
   schedule?: Maybe<ScheduleInput>;
-  history?: Maybe<Array<Maybe<RecordInput>>>;
+  history?: Maybe<Array<Maybe<HistoryInput>>>;
 };
 
 export type Query = {
@@ -93,6 +92,7 @@ export type Mutation = {
   addHabit?: Maybe<Habit>;
   updateHabit?: Maybe<Habit>;
   deleteHabit?: Maybe<Scalars['Boolean']>;
+  updateHistory?: Maybe<Habit>;
 };
 
 
@@ -108,6 +108,12 @@ export type MutationUpdateHabitArgs = {
 
 export type MutationDeleteHabitArgs = {
   _id?: Maybe<Scalars['ID']>;
+};
+
+
+export type MutationUpdateHistoryArgs = {
+  _id?: Maybe<Scalars['ID']>;
+  historyInput?: Maybe<HistoryInput>;
 };
 
 export enum CacheControlScope {
@@ -197,8 +203,8 @@ export type GetHabitsQuery = (
         & Pick<Instance, 'doesRepeat' | 'customName'>
       )> }
     )>, history?: Maybe<Array<Maybe<(
-      { __typename?: 'Record' }
-      & Pick<Record, 'date' | 'completed'>
+      { __typename?: 'History' }
+      & Pick<History, 'date'>
       & { tracking?: Maybe<Array<Maybe<(
         { __typename?: 'Metric' }
         & Pick<Metric, 'name' | 'value'>
@@ -242,8 +248,54 @@ export type UpdateHabitMutation = (
         & Pick<Instance, 'doesRepeat' | 'customName'>
       )> }
     )>, history?: Maybe<Array<Maybe<(
-      { __typename?: 'Record' }
-      & Pick<Record, 'date' | 'completed'>
+      { __typename?: 'History' }
+      & Pick<History, 'date'>
+      & { tracking?: Maybe<Array<Maybe<(
+        { __typename?: 'Metric' }
+        & Pick<Metric, 'name' | 'value'>
+      )>>> }
+    )>>> }
+  )> }
+);
+
+export type UpdateHistoryMutationVariables = Exact<{
+  _id?: Maybe<Scalars['ID']>;
+  historyInput?: Maybe<HistoryInput>;
+}>;
+
+
+export type UpdateHistoryMutation = (
+  { __typename?: 'Mutation' }
+  & { updateHistory?: Maybe<(
+    { __typename?: 'Habit' }
+    & Pick<Habit, '_id' | 'name'>
+    & { schedule?: Maybe<(
+      { __typename?: 'Schedule' }
+      & { mon?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, tue?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, wed?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, thu?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, fri?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sat?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )>, sun?: Maybe<(
+        { __typename?: 'Instance' }
+        & Pick<Instance, 'doesRepeat' | 'customName'>
+      )> }
+    )>, history?: Maybe<Array<Maybe<(
+      { __typename?: 'History' }
+      & Pick<History, 'date'>
       & { tracking?: Maybe<Array<Maybe<(
         { __typename?: 'Metric' }
         & Pick<Metric, 'name' | 'value'>
@@ -383,7 +435,6 @@ export const GetHabitsDocument = gql`
     }
     history {
       date
-      completed
       tracking {
         name
         value
@@ -454,7 +505,6 @@ export const UpdateHabitDocument = gql`
     }
     history {
       date
-      completed
       tracking {
         name
         value
@@ -488,3 +538,74 @@ export function useUpdateHabitMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateHabitMutationHookResult = ReturnType<typeof useUpdateHabitMutation>;
 export type UpdateHabitMutationResult = Apollo.MutationResult<UpdateHabitMutation>;
 export type UpdateHabitMutationOptions = Apollo.BaseMutationOptions<UpdateHabitMutation, UpdateHabitMutationVariables>;
+export const UpdateHistoryDocument = gql`
+    mutation UpdateHistory($_id: ID, $historyInput: HistoryInput) {
+  updateHistory(_id: $_id, historyInput: $historyInput) {
+    _id
+    name
+    schedule {
+      mon {
+        doesRepeat
+        customName
+      }
+      tue {
+        doesRepeat
+        customName
+      }
+      wed {
+        doesRepeat
+        customName
+      }
+      thu {
+        doesRepeat
+        customName
+      }
+      fri {
+        doesRepeat
+        customName
+      }
+      sat {
+        doesRepeat
+        customName
+      }
+      sun {
+        doesRepeat
+        customName
+      }
+    }
+    history {
+      date
+      tracking {
+        name
+        value
+      }
+    }
+  }
+}
+    `;
+export type UpdateHistoryMutationFn = Apollo.MutationFunction<UpdateHistoryMutation, UpdateHistoryMutationVariables>;
+
+/**
+ * __useUpdateHistoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateHistoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHistoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHistoryMutation, { data, loading, error }] = useUpdateHistoryMutation({
+ *   variables: {
+ *      _id: // value for '_id'
+ *      historyInput: // value for 'historyInput'
+ *   },
+ * });
+ */
+export function useUpdateHistoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHistoryMutation, UpdateHistoryMutationVariables>) {
+        return Apollo.useMutation<UpdateHistoryMutation, UpdateHistoryMutationVariables>(UpdateHistoryDocument, baseOptions);
+      }
+export type UpdateHistoryMutationHookResult = ReturnType<typeof useUpdateHistoryMutation>;
+export type UpdateHistoryMutationResult = Apollo.MutationResult<UpdateHistoryMutation>;
+export type UpdateHistoryMutationOptions = Apollo.BaseMutationOptions<UpdateHistoryMutation, UpdateHistoryMutationVariables>;
