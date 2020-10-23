@@ -27,7 +27,8 @@ const Today: React.FC = () => {
       }, a
     ), {})
   )
-  const handleChecked = async (e: any, habit: Habit) => {
+  const handleChecked = async (e: React.ChangeEvent<HTMLInputElement>, habit: Habit) => {
+    e.stopPropagation()
     setHabitStatusMap({
       ...habitStatusMap,
       [habit._id] : { isComplete: e.target.checked }
@@ -47,6 +48,7 @@ const Today: React.FC = () => {
             habitStatusMap={habitStatusMap}
             handleChecked={handleChecked}
             today={today}
+            key={habit._id}
           />
         ))
       ) : null}
