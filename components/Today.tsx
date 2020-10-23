@@ -44,7 +44,6 @@ const Today: React.FC = () => {
             habit={habit}
             habitStatusMap={habitStatusMap}
             handleChecked={handleChecked}
-            today={today}
             key={habit._id}
           />
         ))

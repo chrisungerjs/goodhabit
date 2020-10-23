@@ -156,7 +156,10 @@ export type AddHabitMutation = (
         { __typename?: 'Instance' }
         & Pick<Instance, 'doesRepeat' | 'customName'>
       )> }
-    )> }
+    )>, history?: Maybe<Array<Maybe<(
+      { __typename?: 'History' }
+      & Pick<History, 'date'>
+    )>>> }
   )> }
 );
 
@@ -339,6 +342,9 @@ export const AddHabitDocument = gql`
         doesRepeat
         customName
       }
+    }
+    history {
+      date
     }
   }
 }

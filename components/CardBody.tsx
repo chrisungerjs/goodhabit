@@ -1,12 +1,16 @@
 import {
-  useDeleteHabitMutation,
-  GetHabitsDocument,
   Habit,
+  GetHabitsDocument,
+  useDeleteHabitMutation,
 } from '../generated/graphql'
 import {
-  Button,
   Card,
+  Button,
 } from 'react-bootstrap'
+import {
+  today,
+  daysOfTheWeek,
+} from '../util/dateFunctions'
 
 interface CardBodyProps {
   habit: Habit,
@@ -14,19 +18,32 @@ interface CardBodyProps {
 
 const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
   const [deleteHabit] = useDeleteHabitMutation()
+  const handleDelete = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    await deleteHabit({
+      variables: { _id: habit._id },
+      refetchQueries: [{ query: GetHabitsDocument }],
+    })
+  }
   return (
     <>
       <Card.Body>
-        <div>
-          {JSON.stringify(habit)}
-        </div>
-        
+        {daysOfTheWeek.map((day: string) => (
+          <h4 style={{
+            color: habit.schedule[day].doesRepeat ? '#fff' : '#777',
+            textDecoration: day === today ? 'underline' : 'none',
+          }}>
+            <span>
+              {day}
+            </span>
+            {habit.schedule[day].customName
+              ? <span>: {habit.schedule[day].customName}</span>
+              : null }
+          </h4>
+        ))}
         <Button
           variant="danger"
-          onClick={async () => await deleteHabit({
-            variables: { _id: habit._id },
-            refetchQueries: [{ query: GetHabitsDocument }],
-          })}
+          onClick={(e) => handleDelete(e)}
         >
           Remove
         </Button>

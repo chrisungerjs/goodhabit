@@ -18,7 +18,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChec
     <>
       <Accordion>
         <Card
-          className="border-warning m-1"
+          className="border-info m-1"
           key={habit._id}
         >
           <Card.Header style={{
@@ -26,9 +26,16 @@ const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChec
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-            <Accordion.Toggle as={Button} eventKey={habit._id}>-</Accordion.Toggle>
+            <Accordion.Toggle
+              as={Button}
+              eventKey={habit._id}
+              size="sm"
+            >
+              &#x25BC;
+            </Accordion.Toggle>
             <span
               style={{
+                fontSize: '1.15rem',
                 textDecoration: habitStatusMap[habit._id]?.isComplete ? 'line-through' : 'none',
                 color: habitStatusMap[habit._id]?.isComplete ? '#777' : 'inherit',
               }}
@@ -43,7 +50,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChec
               <input
                 style={{ }}
                 type="checkbox"
-                defaultChecked={habitStatusMap[habit._id].isComplete}
+                defaultChecked={habitStatusMap[habit._id]?.isComplete || false}
                 onChange={(e) => handleChecked(e, habit)}
               />
             </span>

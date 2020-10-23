@@ -32,5 +32,8 @@ mutation AddHabit($habit: HabitInput) {
         customName
       }
     }
+    history {
+      date
+    }
   }
 }

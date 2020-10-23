@@ -30,7 +30,7 @@ const Home: React.FC = () => {
           +
         </Button>
       </h1>
-      {isAddHabit ? <AddHabit /> : null}
+      {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} /> : null}
       <Today />
     </>
   )
