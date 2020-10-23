@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.2.3",
     "@types/micro-cors": "^0.1.1",
+    "@types/react-beautiful-dnd": "^13.0.0",
+    "@types/styled-components": "^5.1.4",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-server-micro": "^2.18.2",
@@ -19,8 +21,10 @@
     "mongodb": "^3.6.2",
     "next": "9.5.4",
     "react": "16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.4.0",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.17.10",
