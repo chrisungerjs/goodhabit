@@ -4,6 +4,9 @@ import {
   useAddHabitMutation,
   GetHabitsDocument,
 } from '../generated/graphql'
+import {
+  Button,
+} from 'react-bootstrap'
 
 const AddHabit: React.FC = () => {
   const [dayToggle, setDayToggle] = useState('day')
@@ -66,10 +69,10 @@ const AddHabit: React.FC = () => {
                     }))
                   }}
                 />
-                <label htmlFor={day}>{day}</label>
+                <label htmlFor={day + '-input'}>{day}</label>
                 <input
                   type="text"
-                  id=""
+                  id={day + '-input'}
                   placeholder="default"
                   value={habit.schedule[day].customName}
                   onChange={(e) => {
@@ -92,7 +95,9 @@ const AddHabit: React.FC = () => {
           </>
         ): null}
         <br/>
-        <button>Submit</button>
+        <Button>Submit</Button>
+        <br/>
+        <br/>
       </form>
     </>
   )
