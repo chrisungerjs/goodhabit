@@ -1,19 +1,16 @@
 import { useState } from 'react'
-import { 
+import {
   GetHabitsDocument, 
-  Habit, 
+  Habit,
   useGetHabitsQuery,
   useUpdateHistoryMutation,
 } from '../generated/graphql'
-import { daysOfTheWeek } from '../util/daysOfTheWeek'
+import {
+  today,
+  archiveDate,
+} from '../util/dateFunctions'
 import HabitCard from './HabitCard'
 
-const today = daysOfTheWeek[new Date().getDay()]
-const archiveDate = new Date().toLocaleDateString(undefined, {
-  day: 'numeric',
-  month: 'numeric',
-  year: 'numeric',
-})
 const Today: React.FC = () => {
   const { data } = useGetHabitsQuery()
   const [updateHistory] = useUpdateHistoryMutation()
@@ -21,7 +18,7 @@ const Today: React.FC = () => {
     data.habits.reduce((a, b) => (
       a[b._id] = {
         isComplete:
-          b.history?.length && b.history[0].date === archiveDate
+          b.history?.length && b.history[b.history.length - 1].date === archiveDate
           ? true
           : false
       }, a

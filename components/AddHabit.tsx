@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { daysOfTheWeek } from '../util/daysOfTheWeek'
+import { daysOfTheWeek } from '../util/dateFunctions'
 import { 
   useAddHabitMutation,
   GetHabitsDocument,
 } from '../generated/graphql'
 import {
   Button,
+  Form,
 } from 'react-bootstrap'
 
 const AddHabit: React.FC = () => {
@@ -28,7 +29,8 @@ const AddHabit: React.FC = () => {
     })
   }
   return (
-    <>
+    <section style={{ padding: '0 .25rem' }}>
+      <h2 style={{ fontSize: '1.5rem' }}>add a new habit:</h2>
       <form onSubmit={handleAddHabit}>
         <label htmlFor="name">I'm going to</label>
         <input
@@ -99,7 +101,7 @@ const AddHabit: React.FC = () => {
         <br/>
         <br/>
       </form>
-    </>
+    </section>
   )
 }
 

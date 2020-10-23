@@ -3,26 +3,22 @@ import {
   Card,
   Button,
 } from 'react-bootstrap'
-import { 
-  GetHabitsDocument,
-  Habit,
-  useDeleteHabitMutation,
-} from '../generated/graphql'
+import { Habit } from '../generated/graphql'
+import CardBody from './CardBody'
+import { today } from '../util/dateFunctions'
 
 interface HabitCardProps {
-  today: string,
   habit: Habit,
   habitStatusMap: any,
   handleChecked: any,
 }
 
-const HabitCard: React.FC<HabitCardProps> = ({ today, habit, habitStatusMap, handleChecked }) => {
-  const [deleteHabit] = useDeleteHabitMutation()
+const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChecked }) => {
   return (
     <>
       <Accordion>
         <Card
-          className="border-success"
+          className="border-warning m-1"
           key={habit._id}
         >
           <Card.Header style={{
@@ -30,7 +26,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ today, habit, habitStatusMap, han
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-            <Accordion.Toggle as={Button} eventKey={habit._id}>&darr;</Accordion.Toggle>
+            <Accordion.Toggle as={Button} eventKey={habit._id}>-</Accordion.Toggle>
             <span
               style={{
                 textDecoration: habitStatusMap[habit._id]?.isComplete ? 'line-through' : 'none',
@@ -53,20 +49,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ today, habit, habitStatusMap, han
             </span>
           </Card.Header>
           <Accordion.Collapse eventKey={habit._id}>
-            <Card.Body>
-              <div>
-                {JSON.stringify(habit)}
-              </div>
-              <Button
-                variant="danger"
-                onClick={async () => await deleteHabit({
-                  variables: { _id: habit._id },
-                  refetchQueries: [{ query: GetHabitsDocument }],
-                })}
-              >
-                Remove
-              </Button>
-            </Card.Body>
+            <CardBody habit={habit} />
           </Accordion.Collapse>
         </Card>
       </Accordion>
