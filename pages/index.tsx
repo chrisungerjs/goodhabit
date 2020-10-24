@@ -10,6 +10,7 @@ const Home: React.FC = () => {
   const { loading, error, data } = useGetHabitsQuery()
   if (loading) return <>Loading...</>
   if (error) return <>Error!</>
+  const index = data.habits.length
   return (
     <>
       <Head>
@@ -30,7 +31,7 @@ const Home: React.FC = () => {
           +
         </Button>
       </h1>
-      {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} /> : null}
+      {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} index={index} /> : null}
       <Today />
     </>
   )
