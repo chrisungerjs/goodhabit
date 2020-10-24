@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap'
 
 const Home: React.FC = () => {
   const [isAddHabit, setIsAddHabit] = useState(false)
-  const { loading, error } = useGetHabitsQuery()
+  const { loading, error, data } = useGetHabitsQuery()
   if (loading) return <>Loading...</>
   if (error) return <>Error!</>
   return (

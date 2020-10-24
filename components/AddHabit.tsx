@@ -11,9 +11,15 @@ import {
   Row,
 } from 'react-bootstrap'
 
-const AddHabit: React.FC<{ setIsAddHabit: any }> = ({ setIsAddHabit }) => {
+interface AddHabitProps {
+  setIsAddHabit: any,
+  index: number,
+}
+
+const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
   const initialHabit = {
     name: '',
+    index: index,
     schedule: daysOfTheWeek.reduce((a, b) => (
       a[b] = {
         doesRepeat: true,

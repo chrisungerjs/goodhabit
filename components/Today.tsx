@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DragDropContext,
   Droppable,
@@ -17,7 +17,6 @@ import {
 } from '../util/dateFunctions'
 import HabitCard from './HabitCard'
 import omitDeep from 'omit-deep-lodash'
-import { O_DIRECT } from 'constants'
 
 const Today: React.FC = () => {
   const [updateHabit] = useUpdateHabitMutation()
