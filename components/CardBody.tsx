@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap'
 import {
   today,
-  daysOfTheWeek,
+  weekDateMap,
 } from '../util/dateFunctions'
 import UpdateHabit from './UpdateHabit'
 import { useState } from 'react'
@@ -35,33 +35,52 @@ const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
           <UpdateHabit habitToUpdate={habit} setIsUpdateHabit={setIsUpdateHabit} />
         ) : (
           <>
-            {daysOfTheWeek.map((day: string) => (
-              <h4 key={day} style={{
-                color: habit.schedule[day].doesRepeat ? '#fff' : '#777',
-                textDecoration: day === today ? 'underline' : 'none',
-              }}>
-                <span>
-                  {day}
-                </span>
-                {habit.schedule[day].customName
-                  ? <span>: {habit.schedule[day].customName}</span>
-                  : null }
-              </h4>
-            ))}
+            <section style={{
+              padding: '.25rem',
+              fontSize: '1rem',
+            }}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni fuga ad enim fugiat tenetur sit explicabo, mollitia ullam voluptates nobis
+            </section>
+            <section style={{
+              padding: '.5rem',
+            }}>
+              {weekDateMap.map((date) => (
+                <h4 key={date.dayOfTheWeek} style={{
+                  color: habit.schedule[date.dayOfTheWeek].doesRepeat ? '#fff' : '#777',
+                  textDecoration: date.dayOfTheWeek === today ? 'underline' : 'none',
+                }}>
+                  <span>
+                    {date.dayOfTheWeek}
+                  </span>
+                  {habit.schedule[date.dayOfTheWeek].customName
+                    ? <span>: {habit.schedule[date.dayOfTheWeek].customName}</span>
+                    : null }
+                  <span style ={{ color: 'teal' }}>
+                    {habit.history.find((record) => record.date === date.date) ? <>&nbsp;&#10004;</> : null}
+                  </span>
+                </h4>
+              ))}
+            </section>
           </>
         )}
-        <Button
-          variant="primary"
-          onClick={() => setIsUpdateHabit(!isUpdateHabit)}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="danger"
-          onClick={(e) => handleDelete(e)}
-        >
-          Remove
-        </Button>
+        <section style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '0 .25rem',
+        }}>
+          <Button
+            variant="primary"
+            onClick={() => setIsUpdateHabit(!isUpdateHabit)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="danger"
+            onClick={(e) => handleDelete(e)}
+          >
+            Remove
+          </Button>
+        </section>
       </Card.Body>
     </>
   )

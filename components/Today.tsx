@@ -13,6 +13,7 @@ import {
 } from '../generated/graphql'
 import {
   archiveDate,
+  today,
 } from '../util/dateFunctions'
 import HabitCard from './HabitCard'
 import omitDeep from 'omit-deep-lodash'
@@ -22,11 +23,12 @@ const Today: React.FC = () => {
   const { data } = useGetHabitsQuery()
   const [updateHistory] = useUpdateHistoryMutation()
   const [orderMap, setOrderMap] = useState(data.habits.map((habit) => habit._id))
+  const todayDate = archiveDate(new Date())
   const [habitStatusMap, setHabitStatusMap] = useState(
     data.habits.reduce((a, b) => (
       a[b._id] = {
         isComplete:
-          b.history?.length && b.history[b.history.length - 1].date === archiveDate
+          b.history?.length && b.history[b.history.length - 1].date === todayDate
           ? true
           : false
       }, a
@@ -38,7 +40,7 @@ const Today: React.FC = () => {
       ...habitStatusMap,
       [habit._id] : { isComplete: e.target.checked }
     })
-    const historyInput = { date: archiveDate }
+    const historyInput = { date: todayDate }
     updateHistory({
       variables: { _id: habit._id, historyInput },
       refetchQueries: [{ query: GetHabitsDocument }],
