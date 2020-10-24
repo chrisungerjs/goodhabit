@@ -11,6 +11,7 @@ import {
   Form,
   Row,
 } from 'react-bootstrap'
+import omitDeep from 'omit-deep-lodash'
 
 interface UpdateHabitProps {
   habitToUpdate: Habit,
@@ -18,7 +19,7 @@ interface UpdateHabitProps {
 }
 
 const UpdateHabit: React.FC<UpdateHabitProps> = ({ habitToUpdate, setIsUpdateHabit }) => {
-  const [habit, setHabit] = useState(habitToUpdate)
+  const [habit, setHabit] = useState(omitDeep(habitToUpdate, '__typename') as Habit)
   const [updateHabit] = useUpdateHabitMutation()
   const handleUpdateHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
