@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useDebugValue, useEffect, useState } from 'react'
 import {
   DragDropContext,
   Droppable,
@@ -17,6 +17,7 @@ import {
 } from '../util/dateFunctions'
 import HabitCard from './HabitCard'
 import omitDeep from 'omit-deep-lodash'
+import { sortBy } from 'lodash'
 
 const Today: React.FC = () => {
   const [updateHabit] = useUpdateHabitMutation()
@@ -83,9 +84,9 @@ const Today: React.FC = () => {
           >
               {data?.habits && habitStatusMap ? (
                 <>
-                  {orderMap.map((_id: string, index: number) => {
-                    const habit: Habit = data.habits.find((habit) => habit._id === _id)
-                    return (
+                  {/* {orderMap.map((_id: string, index: number) => { */}
+                    {/* const habit: Habit = data.habits.find((habit) => habit._id === _id) */}
+                  {[...data.habits].sort((a, b) => orderMap.indexOf(a._id) - orderMap.indexOf(b._id)).map((habit: Habit, index: number) => (
                       <HabitCard
                         key={habit._id}
                         habit={habit}
@@ -94,7 +95,7 @@ const Today: React.FC = () => {
                         index={index}
                       />
                     )
-                  })}
+                  )}
                 </>
               ) : null}
             {provided.placeholder}
