@@ -29,7 +29,7 @@ const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
     <>
       <Card.Body>
         {daysOfTheWeek.map((day: string) => (
-          <h4 style={{
+          <h4 key={day} style={{
             color: habit.schedule[day].doesRepeat ? '#fff' : '#777',
             textDecoration: day === today ? 'underline' : 'none',
           }}>

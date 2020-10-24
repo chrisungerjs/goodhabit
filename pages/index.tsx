@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   const [isAddHabit, setIsAddHabit] = useState(false)
   const { loading, error } = useGetHabitsQuery()
   if (loading) return <>Loading...</>
-  if (error) return <>Error!</> 
+  if (error) return <>Error!</>
   return (
     <>
       <Head>

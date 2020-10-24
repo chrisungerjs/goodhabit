@@ -2,6 +2,7 @@ mutation UpdateHistory($_id: ID, $historyInput: HistoryInput) {
   updateHistory(_id: $_id, historyInput: $historyInput) {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat

@@ -70,6 +70,7 @@ export type HistoryInput = {
 export type Habit = {
   __typename?: 'Habit';
   _id?: Maybe<Scalars['ID']>;
+  index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   schedule?: Maybe<Schedule>;
   history?: Maybe<Array<Maybe<History>>>;
@@ -77,6 +78,7 @@ export type Habit = {
 
 export type HabitInput = {
   _id?: Maybe<Scalars['ID']>;
+  index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   schedule?: Maybe<ScheduleInput>;
   history?: Maybe<Array<Maybe<HistoryInput>>>;
@@ -131,7 +133,7 @@ export type AddHabitMutation = (
   { __typename?: 'Mutation' }
   & { addHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name'>
+    & Pick<Habit, '_id' | 'name' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -180,7 +182,7 @@ export type GetHabitsQuery = (
   { __typename?: 'Query' }
   & { habits?: Maybe<Array<Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name'>
+    & Pick<Habit, '_id' | 'name' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -225,7 +227,7 @@ export type UpdateHabitMutation = (
   { __typename?: 'Mutation' }
   & { updateHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name'>
+    & Pick<Habit, '_id' | 'name' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -271,7 +273,7 @@ export type UpdateHistoryMutation = (
   { __typename?: 'Mutation' }
   & { updateHistory?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name'>
+    & Pick<Habit, '_id' | 'name' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -313,6 +315,7 @@ export const AddHabitDocument = gql`
   addHabit(habit: $habit) {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat
@@ -409,6 +412,7 @@ export const GetHabitsDocument = gql`
   habits {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat
@@ -479,6 +483,7 @@ export const UpdateHabitDocument = gql`
   updateHabit(habit: $habit) {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat
@@ -549,6 +554,7 @@ export const UpdateHistoryDocument = gql`
   updateHistory(_id: $_id, historyInput: $historyInput) {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat

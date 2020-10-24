@@ -2,6 +2,7 @@ mutation AddHabit($habit: HabitInput) {
   addHabit(habit: $habit) {
     _id
     name
+    index
     schedule {
       mon {
         doesRepeat

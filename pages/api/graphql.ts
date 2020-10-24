@@ -11,6 +11,7 @@ const resolvers = {
       const allHabits = await db
         .collection('habit_db')
         .find({})
+        .sort({ index: 1 })
         .toArray()
       return allHabits
     }
@@ -24,12 +25,13 @@ const resolvers = {
       return newHabit.ops[0]
     },
     updateHabit: async (_parent, { habit }, _context) => {
+      const { _id, ...restHabit} = habit
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
         .findOneAndUpdate(
-          { _id: new ObjectId(habit._id) },
-          { $set: { ...habit } },
+          { _id: new ObjectId(_id) },
+          { $set: { ...restHabit } },
           { upsert: true },
         )
       return updatedHabit.value

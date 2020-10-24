@@ -45,12 +45,14 @@ export const typeDefs = gql`
   }
   type Habit {
     _id: ID,
+    index: Int,
     name: String!,
     schedule: Schedule,
     history: [History],
   }
   input HabitInput {
     _id: ID,
+    index: Int,
     name: String!,
     schedule: ScheduleInput,
     history: [HistoryInput],
