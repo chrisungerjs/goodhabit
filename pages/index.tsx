@@ -20,7 +20,7 @@ const Home: React.FC = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 .2rem',
+        padding: '0 .25rem',
       }}>
         <span>
           GoodHabit

@@ -70,8 +70,9 @@ export type HistoryInput = {
 export type Habit = {
   __typename?: 'Habit';
   _id?: Maybe<Scalars['ID']>;
-  index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  index?: Maybe<Scalars['Int']>;
   schedule?: Maybe<Schedule>;
   history?: Maybe<Array<Maybe<History>>>;
 };
@@ -80,6 +81,7 @@ export type HabitInput = {
   _id?: Maybe<Scalars['ID']>;
   index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   schedule?: Maybe<ScheduleInput>;
   history?: Maybe<Array<Maybe<HistoryInput>>>;
 };
@@ -133,7 +135,7 @@ export type AddHabitMutation = (
   { __typename?: 'Mutation' }
   & { addHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -182,7 +184,7 @@ export type GetHabitsQuery = (
   { __typename?: 'Query' }
   & { habits?: Maybe<Array<Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -273,7 +275,7 @@ export type UpdateHistoryMutation = (
   { __typename?: 'Mutation' }
   & { updateHistory?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -315,6 +317,7 @@ export const AddHabitDocument = gql`
   addHabit(habit: $habit) {
     _id
     name
+    description
     index
     schedule {
       mon {
@@ -412,6 +415,7 @@ export const GetHabitsDocument = gql`
   habits {
     _id
     name
+    description
     index
     schedule {
       mon {
@@ -554,6 +558,7 @@ export const UpdateHistoryDocument = gql`
   updateHistory(_id: $_id, historyInput: $historyInput) {
     _id
     name
+    description
     index
     schedule {
       mon {

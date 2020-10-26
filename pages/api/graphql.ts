@@ -17,7 +17,22 @@ const resolvers = {
     }
   },
   Mutation: {
-    addHabit: async (_parent, { habit }, _context) => {
+    register: async (_parent, { email, password }, _context) => {
+      const { db } = await connectToDatabase()
+      const newUser = await db
+        .collection('users')
+        .insertOne({ email, password, habits: [] })
+      console.log(newUser)
+      return newUser.ops[0]
+    },
+    login: async (_parent, { email, password }, _context) => {
+      const { db } = await connectToDatabase()
+      const user = await db
+        .collection('users')
+        .findOne({ email, password })
+    },
+    addHabit: async (_parent, { habit }, { user }) => {
+      console.log(user)
       const { db } = await connectToDatabase()
       const newHabit = await db
         .collection('habit_db')
@@ -59,6 +74,14 @@ const resolvers = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: async ({ req }) => {
+    const token = req.headers.authorization || '5f95c8f3f969c11783218afb'
+    const { db } = await connectToDatabase()
+    const user = await db
+      .collection('users')
+      .findOne({ _id: token })
+    return { user }
+  }
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })

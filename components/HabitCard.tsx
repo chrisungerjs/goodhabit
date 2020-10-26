@@ -43,13 +43,13 @@ const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChec
               >
                 &#x25BC;
               </Accordion.Toggle>
-              <span
-                style={{
-                  fontSize: '1.15rem',
-                  textDecoration: habitStatusMap[habit._id]?.isComplete ? 'line-through' : 'none',
-                  color: habitStatusMap[habit._id]?.isComplete ? '#777' : 'inherit',
-                }}
-              >
+              <span style={{
+                fontSize: '1.15rem',
+                textDecoration: habitStatusMap[habit._id]?.isComplete ? 'line-through' : 'none',
+                color: habitStatusMap[habit._id]?.isComplete ? '#777' : 'inherit',
+                paddingInlineStart: '.5rem',
+                flex: '2 1 auto',
+              }}>
                 {habit.name}
                 {habit.schedule[today].customName 
                   ? <span>: {habit.schedule[today].customName}</span>
@@ -58,7 +58,6 @@ const HabitCard: React.FC<HabitCardProps> = ({ habit, habitStatusMap, handleChec
               </span>
               <span>
                 <input
-                  style={{ }}
                   type="checkbox"
                   defaultChecked={habitStatusMap[habit._id]?.isComplete || false}
                   onChange={(e) => handleChecked(e, habit)}

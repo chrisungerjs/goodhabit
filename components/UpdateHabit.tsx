@@ -40,18 +40,15 @@ const UpdateHabit: React.FC<UpdateHabitProps> = ({ habitToUpdate, setIsUpdateHab
           <h2 style={{ fontSize: '1.5rem' }}>edit habit:</h2>
         </Form.Label>
         <Form.Control
-          type="text"
+          as="input"
           value={habit.name}
           onChange={e => setHabit({...habit, name: e.target.value})}
         />
-        {/* <Form.Control
-          as="select"
-          value={dayToggle}
-          onChange={e => setDayToggle(e.target.value)}
-        >
-          <option value="day">every day</option>
-          <option value="week">on specific days</option>
-        </Form.Control> */}
+        <Form.Control
+          as="textarea"
+          value={habit.description}
+          onChange={e => setHabit({...habit, description: e.target.value})}
+        />
         <br/>
         <>
           {daysOfTheWeek.map(day => (
@@ -99,13 +96,19 @@ const UpdateHabit: React.FC<UpdateHabitProps> = ({ habitToUpdate, setIsUpdateHab
             </Row>
           ))}
         </>
-        <Button
-          type="submit"
-          style={{ margin: '0 auto' }}
-        >
-          Update
-        </Button>
         <br/>
+        <section style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          <Button
+            type="submit"
+            style={{ margin: '0 auto' }}
+            variant="info"
+          >
+            Update
+          </Button>
+        </section>
         <br/>
       </Form>
     </section>

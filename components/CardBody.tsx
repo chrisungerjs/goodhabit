@@ -39,7 +39,7 @@ const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
               padding: '.25rem',
               fontSize: '1rem',
             }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni fuga ad enim fugiat tenetur sit explicabo, mollitia ullam voluptates nobis
+              {habit.description}
             </section>
             <section style={{
               padding: '.5rem',
@@ -61,6 +61,7 @@ const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
                 </h4>
               ))}
             </section>
+            <br/>
           </>
         )}
         <section style={{

@@ -2,6 +2,7 @@ mutation UpdateHabit($habit: HabitInput!) {
   updateHabit(habit: $habit) {
     _id
     name
+    description
     index
     schedule {
       mon {

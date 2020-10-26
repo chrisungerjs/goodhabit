@@ -19,6 +19,7 @@ interface AddHabitProps {
 const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
   const initialHabit = {
     name: '',
+    description: '',
     index: index,
     schedule: daysOfTheWeek.reduce((a, b) => (
       a[b] = {
@@ -31,8 +32,13 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
   const [dayToggle, setDayToggle] = useState('day')
   const [habit, setHabit] = useState(initialHabit)
   const [addHabit] = useAddHabitMutation()
+  const [errorMessage, setErrorMessage] = useState('')
+
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+    setErrorMessage('')
+    if (!habit.name) return setTimeout(() => setErrorMessage('please enter a name'), 10)
+    if (habit.description.length > 400) return setTimeout(() => setErrorMessage('description greater than 400 characters'), 10)
     try {
       await addHabit({
         variables: { habit },
@@ -51,9 +57,16 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
           <h2 style={{ fontSize: '1.5rem' }}>add a new habit:</h2>
         </Form.Label>
         <Form.Control
-          type="text"
+          as="input"
           value={habit.name}
+          placeholder="habit"
           onChange={e => setHabit({...habit, name: e.target.value})}
+        />
+        <Form.Control
+          as="textarea"
+          value={habit.description}
+          placeholder="description"
+          onChange={e => setHabit({...habit, description: e.target.value})}
         />
         <Form.Control
           as="select"
@@ -110,16 +123,33 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
                 </Col>
               </Row>
             ))}
+            <br/>
           </>
         ): null}
-        <Button
-          type="submit"
-          style={{ margin: '0 auto' }}
-        >
-          Submit
-        </Button>
-        <br/>
-        <br/>
+        <section style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          <Button
+            type="submit"
+            variant="info"
+          >
+            Submit
+          </Button>
+        </section>
+        {errorMessage ? (
+          <>
+            <p style={{
+              color: 'red',
+              textAlign: 'center',
+              margin: '.25rem',
+            }}>
+              {errorMessage}
+            </p>
+          </>
+        ) : (
+          <br/>
+        )}
       </Form>
     </section>
   )

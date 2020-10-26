@@ -45,8 +45,9 @@ export const typeDefs = gql`
   }
   type Habit {
     _id: ID,
-    index: Int,
     name: String!,
+    description: String,
+    index: Int,
     schedule: Schedule,
     history: [History],
   }
@@ -54,13 +55,21 @@ export const typeDefs = gql`
     _id: ID,
     index: Int,
     name: String!,
+    description: String,
     schedule: ScheduleInput,
     history: [HistoryInput],
+  }
+  type User {
+    email: String!,
+    password: String!,
+    habits: [Habit],
   }
   type Query {
     habits: [Habit],
   }
   type Mutation {
+    register(email: String!, password: String!): User,
+    login(email: String!, password: String!): User,
     addHabit(habit: HabitInput): Habit,
     updateHabit(habit: HabitInput): Habit,
     deleteHabit(_id: ID): Boolean,

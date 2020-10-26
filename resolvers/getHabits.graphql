@@ -2,6 +2,7 @@ query GetHabits {
   habits {
     _id
     name
+    description
     index
     schedule {
       mon {
