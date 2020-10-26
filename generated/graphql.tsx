@@ -86,6 +86,13 @@ export type HabitInput = {
   history?: Maybe<Array<Maybe<HistoryInput>>>;
 };
 
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String'];
+  password: Scalars['String'];
+  habits?: Maybe<Array<Maybe<Habit>>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   habits?: Maybe<Array<Maybe<Habit>>>;
@@ -93,10 +100,24 @@ export type Query = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  register?: Maybe<User>;
+  login?: Maybe<User>;
   addHabit?: Maybe<Habit>;
   updateHabit?: Maybe<Habit>;
   deleteHabit?: Maybe<Scalars['Boolean']>;
   updateHistory?: Maybe<Habit>;
+};
+
+
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -229,7 +250,7 @@ export type UpdateHabitMutation = (
   { __typename?: 'Mutation' }
   & { updateHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -487,6 +508,7 @@ export const UpdateHabitDocument = gql`
   updateHabit(habit: $habit) {
     _id
     name
+    description
     index
     schedule {
       mon {

@@ -84,7 +84,10 @@ const Today: React.FC = () => {
           >
               {data?.habits && habitStatusMap ? (
                 <>
-                  {[...data.habits].sort((a, b) => orderMap.indexOf(a._id) - orderMap.indexOf(b._id)).map((habit: Habit, index: number) => (
+                  {[...data.habits]
+                    .filter((habit: Habit) => habit.schedule[today].doesRepeat)
+                    .sort((a, b) => orderMap.indexOf(a._id) - orderMap.indexOf(b._id))
+                    .map((habit: Habit, index: number) => (
                       <HabitCard
                         key={habit._id}
                         habit={habit}
