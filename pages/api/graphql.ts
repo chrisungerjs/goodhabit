@@ -3,6 +3,12 @@ import Cors from 'micro-cors'
 import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../util/schema'
+import { hash, compare } from 'bcrypt'
+import {
+  createAccessToken,
+  createRefreshToken,
+  sendRefreshToken,
+} from './auth'
 
 const resolvers = {
   Query: {
@@ -18,18 +24,28 @@ const resolvers = {
   },
   Mutation: {
     register: async (_parent, { email, password }, _context) => {
+      const hashedPassword = await hash(password, 12)
       const { db } = await connectToDatabase()
+      const existingEmail = await db
+        .collection('users')
+        .findOne({ email })
+      if (existingEmail) return false
       const newUser = await db
         .collection('users')
-        .insertOne({ email, password, habits: [] })
-      console.log(newUser)
-      return newUser.ops[0]
+        .insertOne({ email, password: hashedPassword, habits: [] })
+      if (!newUser) return false
+      return true
     },
-    login: async (_parent, { email, password }, _context) => {
+    login: async (_parent, { email, password }, { res }) => {
       const { db } = await connectToDatabase()
       const user = await db
         .collection('users')
-        .findOne({ email, password })
+        .findOne({ email })
+      if (!user) return
+      const validatedPassword = await compare(password, user.password)
+      if (!validatedPassword) return
+      sendRefreshToken(res, createRefreshToken(user))
+      return { accessToken: createAccessToken(user)}
     },
     addHabit: async (_parent, { habit }, { user }) => {
       console.log(user)
@@ -74,14 +90,7 @@ const resolvers = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
-    const token = req.headers.authorization || '5f95c8f3f969c11783218afb'
-    const { db } = await connectToDatabase()
-    const user = await db
-      .collection('users')
-      .findOne({ _id: token })
-    return { user }
-  }
+  context: async ({ req, res }) => ({ req, res }),
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })
@@ -93,7 +102,8 @@ export const config = {
 }
 
 const cors = Cors({
-  allowMethods: ["POST", "OPTIONS"]
+  allowMethods: ["POST", "OPTIONS"],
+  allowCredentials: true,
 })
 
 export default cors(handler)

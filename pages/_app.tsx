@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
-    fetch('http://localhost:3000/api/refresh_token', {
+    fetch('http://localhost:3000/api/auth', {
       method: 'POST',
       credentials: 'include',
     }).then(async response => {

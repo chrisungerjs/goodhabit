@@ -36,19 +36,19 @@ const refreshLink = new TokenRefreshLink({
     return false
   },
   fetchAccessToken: () => {
-    return fetch('http://localhost:3000/api/refresh_token', {
+    return fetch('http://localhost:3000/api/auth', {
       method: 'POST',
       credentials: 'include',
     })
   },
   handleFetch: accessToken => setAccessToken(accessToken),
-  handleError: err => console.warn(err)
+  handleError: err => console.warn(err),
 })
 
-const link = logLink
-  .concat(requestLink as any)
+const link = requestLink
   .concat(refreshLink as any)
-  .concat(httpLink as any) as any
+  .concat(logLink as any)
+  .concat(httpLink as any)
 
 const cache = new InMemoryCache({
   typePolicies: {
