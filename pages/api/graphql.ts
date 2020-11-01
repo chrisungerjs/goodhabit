@@ -3,16 +3,13 @@ import Cors from 'micro-cors'
 import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../util/schema'
-import { hash, compare } from 'bcrypt'
-import {
-  createAccessToken,
-  createRefreshToken,
-  sendRefreshToken,
-} from './auth'
+import { CotterValidateJWT } from 'cotter-node'
 
 const resolvers = {
   Query: {
-    habits: async (_parent, _args, _context) => {
+    habits: async (_parent, _args, { user }) => {
+      console.log(user)
+      if (!user) return
       const { db } = await connectToDatabase()
       const allHabits = await db
         .collection('habit_db')
@@ -23,39 +20,17 @@ const resolvers = {
     }
   },
   Mutation: {
-    register: async (_parent, { email, password }, _context) => {
-      const hashedPassword = await hash(password, 12)
-      const { db } = await connectToDatabase()
-      const existingEmail = await db
-        .collection('users')
-        .findOne({ email })
-      if (existingEmail) return false
-      const newUser = await db
-        .collection('users')
-        .insertOne({ email, password: hashedPassword, habits: [] })
-      if (!newUser) return false
-      return true
-    },
-    login: async (_parent, { email, password }, { res }) => {
-      const { db } = await connectToDatabase()
-      const user = await db
-        .collection('users')
-        .findOne({ email })
-      if (!user) return
-      const validatedPassword = await compare(password, user.password)
-      if (!validatedPassword) return
-      sendRefreshToken(res, createRefreshToken(user))
-      return { accessToken: createAccessToken(user)}
-    },
     addHabit: async (_parent, { habit }, { user }) => {
       console.log(user)
+      if (!user) return
       const { db } = await connectToDatabase()
       const newHabit = await db
         .collection('habit_db')
         .insertOne({ ...habit })
       return newHabit.ops[0]
     },
-    updateHabit: async (_parent, { habit }, _context) => {
+    updateHabit: async (_parent, { habit }, { user }) => {
+      if (!user) return
       const { _id, ...restHabit} = habit
       const { db } = await connectToDatabase()
       const updatedHabit = await db
@@ -67,7 +42,8 @@ const resolvers = {
         )
       return updatedHabit.value
     },
-    updateHistory: async (_parent, { _id, historyInput }, _context) => {
+    updateHistory: async (_parent, { _id, historyInput }, { user }) => {
+      if (!user) return
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
@@ -77,7 +53,8 @@ const resolvers = {
         )
       return updatedHabit.value
     },
-    deleteHabit: async (_parent, { _id }, _context) => {
+    deleteHabit: async (_parent, { _id }, { user }) => {
+      if (!user) return
       const { db } = await connectToDatabase()
       const deletedHabit = await db
         .collection('habit_db')
@@ -90,7 +67,24 @@ const resolvers = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req, res }) => ({ req, res }),
+  context: async ({ req, res }) => {
+    let user = ''
+    if (!('authorization' in req.headers)) return { user }
+    const auth = await req.headers.authorization
+    const bearer = auth.split(' ')
+    const token = bearer[1]
+    console.log(token)
+    let valid = false
+    try {
+      valid = await CotterValidateJWT(token)
+    } catch (err) {
+      console.log(err)
+      valid = false
+    }
+    console.log(valid)
+    if (!valid) return { user: '' }
+    return { user: token }
+  },
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })
