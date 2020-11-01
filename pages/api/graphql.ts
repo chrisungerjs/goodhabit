@@ -4,6 +4,7 @@ import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../util/schema'
 import { CotterValidateJWT } from 'cotter-node'
+import { CotterAccessToken } from 'cotter-token-js'
 
 const resolvers = {
   Query: {
@@ -68,22 +69,23 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req, res }) => {
-    let user = ''
-    if (!('authorization' in req.headers)) return { user }
-    const auth = await req.headers.authorization
-    const bearer = auth.split(' ')
-    const token = bearer[1]
-    console.log(token)
-    let valid = false
-    try {
-      valid = await CotterValidateJWT(token)
-    } catch (err) {
-      console.log(err)
-      valid = false
-    }
-    console.log(valid)
-    if (!valid) return { user: '' }
-    return { user: token }
+    // let user = ''
+    // if (!('authorization' in req.headers)) return { user }
+    // const auth = await req.headers.authorization
+    // const bearer = auth.split(' ')
+    // const token = bearer[1]
+    // console.log(token)
+    // let valid = false
+    // try {
+    //   valid = await CotterValidateJWT(token)
+    // } catch (err) {
+    //   console.log(err)
+    //   valid = false
+    // }
+    // let decoded = new CotterAccessToken(token)
+    // console.log(decoded.payload)
+    // if (!valid) return { user: '' }
+    // return { user: token }
   },
 })
 

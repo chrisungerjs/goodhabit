@@ -5,21 +5,37 @@ import Today from '../components/Today'
 import { useGetHabitsQuery } from '../generated/graphql'
 import { Button } from 'react-bootstrap'
 import Login from '../components/Login'
+import Logout from '../components/Logout'
+import { useEffect, useContext } from 'react'
+import Cotter from 'cotter'
+import { Context } from '../util/context'
 
 const Home: React.FC = () => {
+  const { state, dispatch } = useContext(Context)
+  useEffect(() => {
+    const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
+    let token = '' as any
+    cotter.tokenHander.getAccessToken().then(token => console.log(token))
+    const user = cotter.getLoggedInUser()
+    if (!user) return
+    dispatch({
+      type: "LOGGED_IN_USER",
+      payload: user,
+    })
+  }, [])
   const [isAddHabit, setIsAddHabit] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { loading, error, data } = useGetHabitsQuery()
   if (loading) return <>Loading...</>
   if (error) return <>Error!</>
-  const index = data.habits.length
+  const index = data.habits?.length
   return (
     <>
       <Head>
         <title>GoodHabit</title>
       </Head>
-      {isLoggedIn ? (
+      {state.user.ID ? (
         <>
+          <Logout />
           <h1 style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -39,7 +55,7 @@ const Home: React.FC = () => {
           <Today />
         </>
         ) : (
-          <Login setIsLoggedIn={setIsLoggedIn} />
+          <Login />
         )}
     </>
   )

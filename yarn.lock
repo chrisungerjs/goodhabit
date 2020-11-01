@@ -3666,7 +3666,7 @@ cotter-node@^0.1.2:
     jsonwebtoken "^8.5.1"
     jwk-to-pem "^2.0.3"
 
-cotter-token-js@^0.1.5:
+cotter-token-js@^0.1.5, cotter-token-js@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/cotter-token-js/-/cotter-token-js-0.1.8.tgz#9a706352100a506ac6991274af08dabfff7569cb"
   integrity sha512-tL/x2GdUxVcq9UJsefK+xLeIzI1t1FpIaCvaAt7i5334JbZSHnceBmPiYejdt+JV0Q9CYQFnkaK/x1YNr1ZG9g==

@@ -31,6 +31,7 @@
     "cookies": "^0.8.0",
     "cotter": "^0.3.23",
     "cotter-node": "^0.1.2",
+    "cotter-token-js": "^0.1.8",
     "http-proxy": "^1.18.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.0.0",

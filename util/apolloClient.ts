@@ -13,12 +13,12 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
+    )
+  if (networkError) console.log(`[Network error]: ${networkError}`)
+})
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("ACCESS_TOKEN")
+  const token = ''
   return {
     headers: {
       ...headers,
