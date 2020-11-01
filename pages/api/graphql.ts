@@ -13,7 +13,7 @@ const resolvers = {
       const { db } = await connectToDatabase()
       const allHabits = await db
         .collection('habit_db')
-        .find({})
+        .find({ user })
         .sort({ index: 1 })
         .toArray()
       return allHabits
@@ -21,8 +21,8 @@ const resolvers = {
   },
   Mutation: {
     addHabit: async (_parent, { habit }, { user }) => {
-      console.log(user)
       if (!user) return
+      console.log(habit)
       const { db } = await connectToDatabase()
       const newHabit = await db
         .collection('habit_db')
@@ -68,12 +68,10 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    let user = ''
-    if (!('authorization' in req.headers)) return { user }
+    if (!('authorization' in req.headers)) return { user: null }
     const auth = await req.headers.authorization
     const bearer = auth.split(' ')
     const token = bearer[1]
-    console.log(token)
     let valid = false
     try {
       valid = await CotterValidateJWT(token)
@@ -81,10 +79,10 @@ const apolloServer = new ApolloServer({
       console.log(err)
       valid = false
     }
-    let decoded = new CotterAccessToken(token)
-    console.log(decoded.payload)
-    if (!valid) return { user: '' }
-    return { user: token }
+    if (!valid) return { user: null }
+    const decoded = new CotterAccessToken(token)
+    const userEmail = decoded.payload?.identifier
+    return { user: userEmail }
   },
 })
 

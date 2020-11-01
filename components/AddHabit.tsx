@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { daysOfTheWeek } from '../util/dateFunctions'
 import { 
   useAddHabitMutation,
@@ -10,6 +10,7 @@ import {
   Form,
   Row,
 } from 'react-bootstrap'
+import { Context } from '../util/context'
 
 interface AddHabitProps {
   setIsAddHabit: any,
@@ -17,9 +18,11 @@ interface AddHabitProps {
 }
 
 const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
+  const { state } = useContext(Context)
   const initialHabit = {
     name: '',
     description: '',
+    user: state.user.identifier,
     index: index,
     schedule: daysOfTheWeek.reduce((a, b) => (
       a[b] = {

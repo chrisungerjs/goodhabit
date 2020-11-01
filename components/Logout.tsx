@@ -4,10 +4,18 @@ import { useContext } from 'react'
 import { Context } from '../util/context'
 
 const Logout: React.FC = () => {
-  const { dispatch } = useContext(Context)
+  const { state, dispatch } = useContext(Context)
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   return (
-    <>
+    <section style={{
+      inlineSize: '100vw',
+      blockSize: '4rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'fixed',
+      bottom: 0,
+    }}>
       <Button
         onClick={() => {
           cotter.logOut()
@@ -16,9 +24,9 @@ const Logout: React.FC = () => {
           })
         }}
       >
-        Logout
+        Log out {state.user.identifier}
       </Button>
-    </>
+    </section>
   )
 }
 

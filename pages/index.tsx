@@ -14,8 +14,6 @@ const Home: React.FC = () => {
   const { state, dispatch } = useContext(Context)
   useEffect(() => {
     const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
-    let token = '' as any
-    cotter.tokenHander.getAccessToken().then(token => console.log(token))
     const user = cotter.getLoggedInUser()
     if (!user) return
     dispatch({

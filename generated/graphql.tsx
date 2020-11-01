@@ -71,6 +71,7 @@ export type Habit = {
   __typename?: 'Habit';
   _id?: Maybe<Scalars['ID']>;
   name: Scalars['String'];
+  user?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   schedule?: Maybe<Schedule>;
@@ -81,6 +82,7 @@ export type HabitInput = {
   _id?: Maybe<Scalars['ID']>;
   index?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
+  user?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   schedule?: Maybe<ScheduleInput>;
   history?: Maybe<Array<Maybe<HistoryInput>>>;
@@ -99,32 +101,12 @@ export type Query = {
   habits?: Maybe<Array<Maybe<Habit>>>;
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  accessToken?: Maybe<Scalars['String']>;
-  cookie?: Maybe<Scalars['String']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  register?: Maybe<Scalars['Boolean']>;
-  login?: Maybe<LoginResponse>;
   addHabit?: Maybe<Habit>;
   updateHabit?: Maybe<Habit>;
   deleteHabit?: Maybe<Scalars['Boolean']>;
   updateHistory?: Maybe<Habit>;
-};
-
-
-export type MutationRegisterArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
-
-export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
 };
 
 
@@ -163,7 +145,7 @@ export type AddHabitMutation = (
   { __typename?: 'Mutation' }
   & { addHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'user' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -212,7 +194,7 @@ export type GetHabitsQuery = (
   { __typename?: 'Query' }
   & { habits?: Maybe<Array<Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'user' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -248,31 +230,6 @@ export type GetHabitsQuery = (
   )>>> }
 );
 
-export type LoginMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
-}>;
-
-
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login?: Maybe<(
-    { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
-  )> }
-);
-
-export type RegisterMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
-}>;
-
-
-export type RegisterMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'register'>
-);
-
 export type UpdateHabitMutationVariables = Exact<{
   habit: HabitInput;
 }>;
@@ -282,7 +239,7 @@ export type UpdateHabitMutation = (
   { __typename?: 'Mutation' }
   & { updateHabit?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'user' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -328,7 +285,7 @@ export type UpdateHistoryMutation = (
   { __typename?: 'Mutation' }
   & { updateHistory?: Maybe<(
     { __typename?: 'Habit' }
-    & Pick<Habit, '_id' | 'name' | 'description' | 'index'>
+    & Pick<Habit, '_id' | 'name' | 'user' | 'description' | 'index'>
     & { schedule?: Maybe<(
       { __typename?: 'Schedule' }
       & { mon?: Maybe<(
@@ -370,6 +327,7 @@ export const AddHabitDocument = gql`
   addHabit(habit: $habit) {
     _id
     name
+    user
     description
     index
     schedule {
@@ -468,6 +426,7 @@ export const GetHabitsDocument = gql`
   habits {
     _id
     name
+    user
     description
     index
     schedule {
@@ -535,75 +494,12 @@ export function useGetHabitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetHabitsQueryHookResult = ReturnType<typeof useGetHabitsQuery>;
 export type GetHabitsLazyQueryHookResult = ReturnType<typeof useGetHabitsLazyQuery>;
 export type GetHabitsQueryResult = Apollo.QueryResult<GetHabitsQuery, GetHabitsQueryVariables>;
-export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
-    accessToken
-  }
-}
-    `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
-
-/**
- * __useLoginMutation__
- *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
-      }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(email: $email, password: $password)
-}
-    `;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
-
-/**
- * __useRegisterMutation__
- *
- * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [registerMutation, { data, loading, error }] = useRegisterMutation({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *   },
- * });
- */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
-      }
-export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
-export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const UpdateHabitDocument = gql`
     mutation UpdateHabit($habit: HabitInput!) {
   updateHabit(habit: $habit) {
     _id
     name
+    user
     description
     index
     schedule {
@@ -676,6 +572,7 @@ export const UpdateHistoryDocument = gql`
   updateHistory(_id: $_id, historyInput: $historyInput) {
     _id
     name
+    user
     description
     index
     schedule {
