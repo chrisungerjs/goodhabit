@@ -9,7 +9,6 @@ import { CotterAccessToken } from 'cotter-token-js'
 const resolvers = {
   Query: {
     habits: async (_parent, _args, { user }) => {
-      console.log(user)
       if (!user) return
       const { db } = await connectToDatabase()
       const allHabits = await db
@@ -68,24 +67,24 @@ const resolvers = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req, res }) => {
-    // let user = ''
-    // if (!('authorization' in req.headers)) return { user }
-    // const auth = await req.headers.authorization
-    // const bearer = auth.split(' ')
-    // const token = bearer[1]
-    // console.log(token)
-    // let valid = false
-    // try {
-    //   valid = await CotterValidateJWT(token)
-    // } catch (err) {
-    //   console.log(err)
-    //   valid = false
-    // }
-    // let decoded = new CotterAccessToken(token)
-    // console.log(decoded.payload)
-    // if (!valid) return { user: '' }
-    // return { user: token }
+  context: async ({ req }) => {
+    let user = ''
+    if (!('authorization' in req.headers)) return { user }
+    const auth = await req.headers.authorization
+    const bearer = auth.split(' ')
+    const token = bearer[1]
+    console.log(token)
+    let valid = false
+    try {
+      valid = await CotterValidateJWT(token)
+    } catch (err) {
+      console.log(err)
+      valid = false
+    }
+    let decoded = new CotterAccessToken(token)
+    console.log(decoded.payload)
+    if (!valid) return { user: '' }
+    return { user: token }
   },
 })
 

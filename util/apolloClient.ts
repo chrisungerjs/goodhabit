@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { onError } from "apollo-link-error";
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from '@apollo/client/link/context'
+import Cotter from 'cotter'
 
 const uri = 'http://localhost:3000/api/graphql'
 const credentials = 'include'
@@ -17,8 +18,10 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-const authLink = setContext((_, { headers }) => {
-  const token = ''
+const authLink = setContext(async (_, { headers }) => {
+  const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
+  const response = await cotter.tokenHandler.getAccessToken()
+  const { token = '' } = response 
   return {
     headers: {
       ...headers,
