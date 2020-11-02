@@ -10,7 +10,7 @@ const Login: React.FC = () => {
       cotter
         .signInWithLink()
         .showEmailForm()
-        .then(payload => {
+        .then(() => {
           dispatch({
             type: "LOGGED_IN_USER",
             payload: cotter.getLoggedInUser()
@@ -23,9 +23,14 @@ const Login: React.FC = () => {
   }, [])
   return (
     <>
+      <h1 style={{
+        padding: '0 .25rem',
+      }}>GoodHabit</h1>
       <section
         id="cotter-form-container"
-        style={{ blockSize: '100vh' }}
+        style={{
+          blockSize: '50vh',
+        }}
       >
       </section>
     </>

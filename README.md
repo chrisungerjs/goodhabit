@@ -6,10 +6,10 @@ Daily habit tracking checklist that automatically resets to help you stay focuse
 
 - TypeScript
 - Next React
-- React Beautiful DnD
-- React Bootstrap (prototype styles)
 - Apollo GraphQL
 - MongoDB Atlas
+- React Bootstraps
+- React Beautiful DnD
 - Cotter Passwordless Auth
 
 ### Local Install Instructions:

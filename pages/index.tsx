@@ -26,13 +26,15 @@ const Home: React.FC = () => {
   if (error) return <>Error!</>
   const index = data.habits?.length
   return (
-    <>
+    <section style={{
+      maxInlineSize: '30rem',
+      margin: '0 auto',      
+    }}>
       <Head>
         <title>GoodHabit</title>
       </Head>
       {state.user.ID ? (
         <>
-          <Logout />
           <h1 style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -50,11 +52,12 @@ const Home: React.FC = () => {
           </h1>
           {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} index={index} /> : null}
           <Today />
+          <Logout />
         </>
         ) : (
           <Login />
-        )}
-    </>
+          )}
+    </section>
   )
 }
 

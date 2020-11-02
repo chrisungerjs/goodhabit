@@ -1,12 +1,13 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, from, InMemoryCache } from '@apollo/client'
 import { onError } from "apollo-link-error";
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from '@apollo/client/link/context'
 import Cotter from 'cotter'
 
-const uri = 'http://localhost:3000/api/graphql'
-const credentials = 'include'
-const httpLink = createHttpLink({ uri, credentials })
+const httpLink = createHttpLink({ 
+  uri: 'http://localhost:3000/api/graphql',
+  credentials: 'include',
+})
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -27,11 +28,15 @@ const authLink = setContext(async (_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
-    }
+    },
   }
 })
 
-const link = logLink.concat(authLink as any).concat(httpLink as any) as any
+const link = from([
+  logLink as any,
+  authLink as any,
+  httpLink as any,
+])
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -39,8 +44,8 @@ const cache = new InMemoryCache({
       fields: {
         habits: {
           merge: false,
-        }
-      }
+        },
+      },
     },
   },
 })

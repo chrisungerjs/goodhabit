@@ -8,6 +8,6 @@ body {
   box-sizing: border-box;
 }
 
-input[type=checkbox] {
+input[type='checkbox'] {
   transform: scale(1.5);
 }
