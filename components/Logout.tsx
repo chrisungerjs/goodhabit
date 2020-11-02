@@ -1,6 +1,6 @@
+import { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import Cotter from 'cotter'
-import { useContext } from 'react'
 import { Context } from '../util/context'
 
 const Logout: React.FC = () => {

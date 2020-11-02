@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, createContext } from 'react'
+import { useReducer, createContext } from 'react'
 
 const initialState = {
   user: {} as any
@@ -9,10 +9,8 @@ const Context = createContext({} as any)
 const user = (state: any, action: any) => {
   switch (action.type) {
     case "LOGGED_IN_USER":
-      console.log("LOGGED_IN")
       return { ...state, user: action.payload }
     case "LOGGED_OUT_USER":
-      console.log("LOGGED_OUT")
       return { ...initialState }
     default:
       return state

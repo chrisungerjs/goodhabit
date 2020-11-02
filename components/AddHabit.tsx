@@ -1,15 +1,15 @@
 import { useContext, useState } from 'react'
-import { daysOfTheWeek } from '../util/dateFunctions'
-import { 
-  useAddHabitMutation,
-  GetHabitsDocument,
-} from '../generated/graphql'
 import {
   Button,
   Col,
   Form,
   Row,
 } from 'react-bootstrap'
+import {
+  useAddHabitMutation,
+  GetHabitsDocument,
+} from '../generated/graphql'
+import { daysOfTheWeek } from '../util/dateFunctions'
 import { Context } from '../util/context'
 
 interface AddHabitProps {
@@ -18,7 +18,10 @@ interface AddHabitProps {
 }
 
 const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
+  const [dayToggle, setDayToggle] = useState('day')
   const { state } = useContext(Context)
+  const [addHabit] = useAddHabitMutation()
+  const [errorMessage, setErrorMessage] = useState('')
   const initialHabit = {
     name: '',
     description: '',
@@ -32,10 +35,7 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
     ), {}),
     history: [],
   }
-  const [dayToggle, setDayToggle] = useState('day')
   const [habit, setHabit] = useState(initialHabit)
-  const [addHabit] = useAddHabitMutation()
-  const [errorMessage, setErrorMessage] = useState('')
 
   const handleAddHabit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -53,6 +53,7 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
       console.error(err)
     }
   }
+
   return (
     <section style={{ padding: '0 .25rem' }}>
       <Form onSubmit={handleAddHabit}>
@@ -90,14 +91,13 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
                     defaultChecked={habit.schedule[day].doesRepeat}
                     id={day}
                     onChange={(e) => {
-                      const checkedState = e.target.checked
                       setHabit(habit => ({
                         ...habit,
                         schedule: {
                           ...habit.schedule,
                           [day]: {
                             ...habit.schedule[day],
-                            doesRepeat: checkedState,
+                            doesRepeat: e.target.checked,
                           },
                         },
                       }))
@@ -110,14 +110,13 @@ const AddHabit: React.FC<AddHabitProps> = ({ setIsAddHabit, index }) => {
                     placeholder={day}
                     value={habit.schedule[day].customName}
                     onChange={(e) => {
-                      const nameState = e.target.value
                       setHabit(habit => ({
                         ...habit,
                         schedule: {
                           ...habit.schedule,
                           [day]: {
                             ...habit.schedule[day],
-                            customName: nameState,
+                            customName: e.target.value,
                           }
                         },
                       }))

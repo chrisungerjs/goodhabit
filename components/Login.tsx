@@ -1,5 +1,5 @@
-import Cotter from 'cotter'
 import { useContext, useEffect } from 'react'
+import Cotter from 'cotter'
 import { Context } from '../util/context'
 
 const Login: React.FC = () => {

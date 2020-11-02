@@ -1,10 +1,10 @@
 import { ApolloServer } from 'apollo-server-micro'
 import Cors from 'micro-cors'
-import { connectToDatabase } from '../../util/db'
 import { ObjectId } from 'mongodb'
-import { typeDefs } from '../../util/schema'
 import { CotterValidateJWT } from 'cotter-node'
 import { CotterAccessToken } from 'cotter-token-js'
+import { connectToDatabase } from '../../util/db'
+import { typeDefs } from '../../util/schema'
 
 const resolvers = {
   Query: {
@@ -22,7 +22,6 @@ const resolvers = {
   Mutation: {
     addHabit: async (_parent, { habit }, { user }) => {
       if (!user) return
-      console.log(habit)
       const { db } = await connectToDatabase()
       const newHabit = await db
         .collection('habit_db')
@@ -31,13 +30,13 @@ const resolvers = {
     },
     updateHabit: async (_parent, { habit }, { user }) => {
       if (!user) return
-      const { _id, ...restHabit} = habit
+      const { _id, ...updateHabit} = habit
       const { db } = await connectToDatabase()
       const updatedHabit = await db
         .collection('habit_db')
         .findOneAndUpdate(
           { _id: new ObjectId(_id) },
-          { $set: { ...restHabit } },
+          { $set: { ...updateHabit } },
           { upsert: true },
         )
       return updatedHabit.value
@@ -64,26 +63,28 @@ const resolvers = {
   }
 }
 
+const context = async ({ req }) => {
+  if (!('authorization' in req.headers)) return { user: null }
+  const auth = await req.headers.authorization
+  const bearer = auth.split(' ')
+  const token = bearer[1]
+  let valid = false
+  try {
+    valid = await CotterValidateJWT(token)
+  } catch (err) {
+    console.log(err)
+    valid = false
+  }
+  if (!valid) return { user: null }
+  const decoded = new CotterAccessToken(token)
+  const userEmail = decoded.payload?.identifier
+  return { user: userEmail }
+}
+
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
-    if (!('authorization' in req.headers)) return { user: null }
-    const auth = await req.headers.authorization
-    const bearer = auth.split(' ')
-    const token = bearer[1]
-    let valid = false
-    try {
-      valid = await CotterValidateJWT(token)
-    } catch (err) {
-      console.log(err)
-      valid = false
-    }
-    if (!valid) return { user: null }
-    const decoded = new CotterAccessToken(token)
-    const userEmail = decoded.payload?.identifier
-    return { user: userEmail }
-  },
+  context,
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })

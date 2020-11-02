@@ -13,89 +13,6 @@ export type Scalars = {
   Upload: any;
 };
 
-export type Instance = {
-  __typename?: 'Instance';
-  doesRepeat?: Maybe<Scalars['Boolean']>;
-  customName?: Maybe<Scalars['String']>;
-};
-
-export type InstanceInput = {
-  doesRepeat?: Maybe<Scalars['Boolean']>;
-  customName?: Maybe<Scalars['String']>;
-};
-
-export type Schedule = {
-  __typename?: 'Schedule';
-  mon?: Maybe<Instance>;
-  tue?: Maybe<Instance>;
-  wed?: Maybe<Instance>;
-  thu?: Maybe<Instance>;
-  fri?: Maybe<Instance>;
-  sat?: Maybe<Instance>;
-  sun?: Maybe<Instance>;
-};
-
-export type ScheduleInput = {
-  mon?: Maybe<InstanceInput>;
-  tue?: Maybe<InstanceInput>;
-  wed?: Maybe<InstanceInput>;
-  thu?: Maybe<InstanceInput>;
-  fri?: Maybe<InstanceInput>;
-  sat?: Maybe<InstanceInput>;
-  sun?: Maybe<InstanceInput>;
-};
-
-export type Metric = {
-  __typename?: 'Metric';
-  name: Scalars['String'];
-  value?: Maybe<Scalars['String']>;
-};
-
-export type MetricInput = {
-  name: Scalars['String'];
-  value?: Maybe<Scalars['String']>;
-};
-
-export type History = {
-  __typename?: 'History';
-  date: Scalars['String'];
-  tracking?: Maybe<Array<Maybe<Metric>>>;
-};
-
-export type HistoryInput = {
-  date: Scalars['String'];
-  tracking?: Maybe<Array<Maybe<MetricInput>>>;
-};
-
-export type Habit = {
-  __typename?: 'Habit';
-  _id?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-  user?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  index?: Maybe<Scalars['Int']>;
-  schedule?: Maybe<Schedule>;
-  history?: Maybe<Array<Maybe<History>>>;
-};
-
-export type HabitInput = {
-  _id?: Maybe<Scalars['ID']>;
-  index?: Maybe<Scalars['Int']>;
-  name: Scalars['String'];
-  user?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  schedule?: Maybe<ScheduleInput>;
-  history?: Maybe<Array<Maybe<HistoryInput>>>;
-};
-
-export type User = {
-  __typename?: 'User';
-  _id?: Maybe<Scalars['ID']>;
-  email: Scalars['String'];
-  password: Scalars['String'];
-  habits?: Maybe<Array<Maybe<Habit>>>;
-};
-
 export type Query = {
   __typename?: 'Query';
   habits?: Maybe<Array<Maybe<Habit>>>;
@@ -128,6 +45,81 @@ export type MutationDeleteHabitArgs = {
 export type MutationUpdateHistoryArgs = {
   _id?: Maybe<Scalars['ID']>;
   historyInput?: Maybe<HistoryInput>;
+};
+
+export type Habit = {
+  __typename?: 'Habit';
+  _id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  user?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  index?: Maybe<Scalars['Int']>;
+  schedule?: Maybe<Schedule>;
+  history?: Maybe<Array<Maybe<History>>>;
+};
+
+export type Schedule = {
+  __typename?: 'Schedule';
+  mon?: Maybe<Instance>;
+  tue?: Maybe<Instance>;
+  wed?: Maybe<Instance>;
+  thu?: Maybe<Instance>;
+  fri?: Maybe<Instance>;
+  sat?: Maybe<Instance>;
+  sun?: Maybe<Instance>;
+};
+
+export type Instance = {
+  __typename?: 'Instance';
+  doesRepeat?: Maybe<Scalars['Boolean']>;
+  customName?: Maybe<Scalars['String']>;
+};
+
+export type History = {
+  __typename?: 'History';
+  date: Scalars['String'];
+  tracking?: Maybe<Array<Maybe<Metric>>>;
+};
+
+export type Metric = {
+  __typename?: 'Metric';
+  name: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
+};
+
+export type HabitInput = {
+  _id?: Maybe<Scalars['ID']>;
+  index?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
+  user?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  schedule?: Maybe<ScheduleInput>;
+  history?: Maybe<Array<Maybe<HistoryInput>>>;
+};
+
+export type ScheduleInput = {
+  mon?: Maybe<InstanceInput>;
+  tue?: Maybe<InstanceInput>;
+  wed?: Maybe<InstanceInput>;
+  thu?: Maybe<InstanceInput>;
+  fri?: Maybe<InstanceInput>;
+  sat?: Maybe<InstanceInput>;
+  sun?: Maybe<InstanceInput>;
+};
+
+export type InstanceInput = {
+  doesRepeat?: Maybe<Scalars['Boolean']>;
+  customName?: Maybe<Scalars['String']>;
+};
+
+export type HistoryInput = {
+  date: Scalars['String'];
+  tracking?: Maybe<Array<Maybe<MetricInput>>>;
+};
+
+export type MetricInput = {
+  name: Scalars['String'];
+  value?: Maybe<Scalars['String']>;
 };
 
 export enum CacheControlScope {

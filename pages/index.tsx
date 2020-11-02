@@ -1,14 +1,13 @@
+import { useEffect, useContext, useState } from 'react'
 import Head from 'next/head'
-import { useState } from 'react'
-import AddHabit from '../components/AddHabit'
-import Today from '../components/Today'
-import { useGetHabitsQuery } from '../generated/graphql'
+import Cotter from 'cotter'
 import { Button } from 'react-bootstrap'
+import { Context } from '../util/context'
+import { useGetHabitsQuery } from '../generated/graphql'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
-import { useEffect, useContext } from 'react'
-import Cotter from 'cotter'
-import { Context } from '../util/context'
+import Today from '../components/Today'
+import AddHabit from '../components/AddHabit'
 
 const Home: React.FC = () => {
   const { state, dispatch } = useContext(Context)

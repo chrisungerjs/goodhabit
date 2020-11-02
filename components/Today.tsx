@@ -1,22 +1,19 @@
 import { useState } from 'react'
+import omitDeep from 'omit-deep-lodash'
 import {
   DragDropContext,
   Droppable,
   DropResult,
 } from 'react-beautiful-dnd'
-import { useUpdateHabitMutation } from '../generated/graphql'
 import {
-  GetHabitsDocument,
   Habit,
+  GetHabitsDocument,
   useGetHabitsQuery,
   useUpdateHistoryMutation,
 } from '../generated/graphql'
-import {
-  archiveDate,
-  today,
-} from '../util/dateFunctions'
+import { useUpdateHabitMutation } from '../generated/graphql'
+import { archiveDate, today } from '../util/dateFunctions'
 import HabitCard from './HabitCard'
-import omitDeep from 'omit-deep-lodash'
 
 const Today: React.FC = () => {
   const [updateHabit] = useUpdateHabitMutation()

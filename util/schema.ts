@@ -1,47 +1,14 @@
 import { gql } from '@apollo/client'
 
 export const typeDefs = gql`
-  type Instance {
-    doesRepeat: Boolean,
-    customName: String,
+  type Query {
+    habits: [Habit],
   }
-  input InstanceInput {
-    doesRepeat: Boolean,
-    customName: String,
-  }
-  type Schedule {
-    mon: Instance,
-    tue: Instance,
-    wed: Instance,
-    thu: Instance,
-    fri: Instance,
-    sat: Instance,
-    sun: Instance,
-  }
-  input ScheduleInput {
-    mon: InstanceInput,
-    tue: InstanceInput,
-    wed: InstanceInput,
-    thu: InstanceInput,
-    fri: InstanceInput,
-    sat: InstanceInput,
-    sun: InstanceInput,
-  }
-  type Metric {
-    name: String!,
-    value: String,
-  }
-  input MetricInput {
-    name: String!,
-    value: String,
-  }
-  type History {
-    date: String!,
-    tracking: [Metric],
-  }
-  input HistoryInput {
-    date: String!,
-    tracking: [MetricInput],
+  type Mutation {
+    addHabit(habit: HabitInput): Habit,
+    updateHabit(habit: HabitInput): Habit,
+    deleteHabit(_id: ID): Boolean,
+    updateHistory(_id: ID, historyInput: HistoryInput): Habit,
   }
   type Habit {
     _id: ID,
@@ -52,6 +19,27 @@ export const typeDefs = gql`
     schedule: Schedule,
     history: [History],
   }
+  type Schedule {
+    mon: Instance,
+    tue: Instance,
+    wed: Instance,
+    thu: Instance,
+    fri: Instance,
+    sat: Instance,
+    sun: Instance,
+  }
+  type Instance {
+    doesRepeat: Boolean,
+    customName: String,
+  }
+  type History {
+    date: String!,
+    tracking: [Metric],
+  }
+  type Metric {
+    name: String!,
+    value: String,
+  }
   input HabitInput {
     _id: ID,
     index: Int,
@@ -61,19 +49,25 @@ export const typeDefs = gql`
     schedule: ScheduleInput,
     history: [HistoryInput],
   }
-  type User {
-    _id: ID,
-    email: String!,
-    password: String!,
-    habits: [Habit],
+  input ScheduleInput {
+    mon: InstanceInput,
+    tue: InstanceInput,
+    wed: InstanceInput,
+    thu: InstanceInput,
+    fri: InstanceInput,
+    sat: InstanceInput,
+    sun: InstanceInput,
   }
-  type Query {
-    habits: [Habit],
+  input InstanceInput {
+    doesRepeat: Boolean,
+    customName: String,
   }
-  type Mutation {
-    addHabit(habit: HabitInput): Habit,
-    updateHabit(habit: HabitInput): Habit,
-    deleteHabit(_id: ID): Boolean,
-    updateHistory(_id: ID, historyInput: HistoryInput): Habit,
+  input HistoryInput {
+    date: String!,
+    tracking: [MetricInput],
+  }
+  input MetricInput {
+    name: String!,
+    value: String,
   }
 `

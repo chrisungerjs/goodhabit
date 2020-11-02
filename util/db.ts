@@ -15,7 +15,7 @@ export const connectToDatabase = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  const db = await client.db(dbName)
+  const db = client.db(dbName)
   cachedClient = client
   cachedDb = db
   return { client, db }

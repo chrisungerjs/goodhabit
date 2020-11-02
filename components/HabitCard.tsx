@@ -1,12 +1,12 @@
+import { Draggable } from 'react-beautiful-dnd'
 import {
   Accordion,
   Card,
   Button,
 } from 'react-bootstrap'
 import { Habit } from '../generated/graphql'
-import CardBody from './CardBody'
 import { today } from '../util/dateFunctions'
-import { Draggable } from 'react-beautiful-dnd'
+import CardBody from './CardBody'
 
 interface HabitCardProps {
   habit: Habit,

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { daysOfTheWeek } from '../util/dateFunctions'
 import { 
   useUpdateHabitMutation,
   GetHabitsDocument,
@@ -12,6 +11,7 @@ import {
   Row,
 } from 'react-bootstrap'
 import omitDeep from 'omit-deep-lodash'
+import { daysOfTheWeek } from '../util/dateFunctions'
 
 interface UpdateHabitProps {
   habitToUpdate: Habit,

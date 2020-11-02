@@ -1,24 +1,14 @@
+import { useState } from 'react'
+import { Card, Button } from 'react-bootstrap'
 import {
   Habit,
   GetHabitsDocument,
   useDeleteHabitMutation,
 } from '../generated/graphql'
-import {
-  Card,
-  Button,
-} from 'react-bootstrap'
-import {
-  today,
-  weekDateMap,
-} from '../util/dateFunctions'
+import { today, weekDateMap } from '../util/dateFunctions'
 import UpdateHabit from './UpdateHabit'
-import { useState } from 'react'
 
-interface CardBodyProps {
-  habit: Habit,
-}
-
-const CardBody: React.FC<CardBodyProps> = ({ habit }) => {
+const CardBody: React.FC<{ habit: Habit }> = ({ habit }) => {
   const [deleteHabit] = useDeleteHabitMutation()
   const [isUpdateHabit, setIsUpdateHabit] = useState(false)
   const handleDelete = async (e: React.SyntheticEvent) => {

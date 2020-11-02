@@ -19,9 +19,10 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 const authLink = setContext(async (_, { headers }) => {
+  let token = ''
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   const response = await cotter.tokenHandler.getAccessToken()
-  const { token = '' } = response 
+  if (response?.token) token = response.token
   return {
     headers: {
       ...headers,
