@@ -25,6 +25,7 @@ const Login: React.FC = () => {
     <>
       <h1 style={{
         padding: '0 .25rem',
+        margin: '2rem 0',
       }}>GoodHabit</h1>
       <section
         id="cotter-form-container"

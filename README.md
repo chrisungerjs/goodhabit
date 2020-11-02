@@ -2,6 +2,8 @@
 
 Daily habit tracking checklist that automatically resets to help you stay focused and turn vague goals into long-term habits.
 
+I find most habit tracking apps currently in the app store convoluted and difficult to use, so I wanted to build something simple but powerful that was easy to use and felt more like a lightweight to-do app. It was important for me that I choose technologies that are flexible and adaptable, because I plan to continue working on the app. For that reason, I decided I wanted to build an Apollo GraphQL application layer that will serve as the basis of the app going forward. With that in place, I can choose to swap out components like the database and even the frontend framework later on down the line, without having to fundamentally change the underlying API. I chose MongoDB Atlas for the database because I am familiar with it, but I would like to explore possible alternatives in the future, including SQL/Postgres, with or without something like TypeORM.
+
 ### Technologies Used:
 
 - TypeScript

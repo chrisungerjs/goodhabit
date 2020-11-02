@@ -40,6 +40,7 @@ const Home: React.FC = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '0 .25rem',
+            margin: '2rem 0',
           }}>
             <span>
               GoodHabit
