@@ -9,6 +9,8 @@ const httpLink = createHttpLink({
   credentials: 'include',
 })
 
+console.log(httpLink)
+
 const logLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
