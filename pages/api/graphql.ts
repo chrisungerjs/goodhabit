@@ -78,6 +78,7 @@ const context = async ({ req }) => {
   if (!valid) return { user: null }
   const decoded = new CotterAccessToken(token)
   const userEmail = decoded.payload?.identifier
+  console.log(userEmail)
   return { user: userEmail }
 }
 
