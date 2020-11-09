@@ -15,6 +15,7 @@ const Home: React.FC = () => {
     try {
       const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
       const user = cotter.getLoggedInUser()
+      if (!user) return
       dispatch({
         type: "LOGGED_IN_USER",
         payload: user,
