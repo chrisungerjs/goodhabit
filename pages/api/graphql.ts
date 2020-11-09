@@ -98,7 +98,6 @@ export const config = {
 const cors = Cors({
   allowMethods: ["POST", "OPTIONS"],
   allowCredentials: true,
-  origin: '*+.vercel.app*+',
 })
 
 export default cors(handler)
