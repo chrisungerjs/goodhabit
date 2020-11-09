@@ -87,7 +87,7 @@ const apolloServer = new ApolloServer({
   context,
 })
 
-const handler = apolloServer.createHandler({ path: 'https://goodhabit.vercel.app/api/graphql' })
+const handler = apolloServer.createHandler({ path: '/api/graphql' })
 
 export const config = {
   api: {
