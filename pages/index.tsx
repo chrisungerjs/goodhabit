@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react'
 import Head from 'next/head'
 import Cotter from 'cotter'
-import { Button } from 'react-bootstrap'
+import { Button, useAccordionToggle } from 'react-bootstrap'
 import { Context } from '../util/context'
 import { useGetHabitsQuery } from '../generated/graphql'
 import Login from '../components/Login'
@@ -15,6 +15,7 @@ const Home: React.FC = () => {
     try {
       const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
       const user = cotter.getLoggedInUser()
+      console.log('user:', useAccordionToggle)
       if (!user) return
       dispatch({
         type: "LOGGED_IN_USER",
