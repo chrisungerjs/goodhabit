@@ -12,8 +12,6 @@ const httpLink = createHttpLink({
   }
 })
 
-console.log(httpLink)
-
 const logLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>

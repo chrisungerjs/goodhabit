@@ -95,9 +95,9 @@ export const config = {
   }
 }
 
-const cors = Cors({
-  allowMethods: ["POST", "OPTIONS"],
-  allowCredentials: true,
-})
+// const cors = Cors({
+//   allowMethods: ["POST", "OPTIONS"],
+//   allowCredentials: true,
+// })
 
-export default cors(handler)
+export default handler
