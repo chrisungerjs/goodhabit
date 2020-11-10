@@ -6,7 +6,7 @@ import Cotter from 'cotter'
 
 const httpLink = createHttpLink({
   uri: 'https://goodhabit.vercel.app/api/graphql',
-  credentials: 'include',
+  credentials: 'same-origin',
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
