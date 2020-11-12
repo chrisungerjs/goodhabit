@@ -11,9 +11,14 @@ import Cotter from 'cotter'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
+const test: HttpLink.Options = { }
+
 const httpLink = new HttpLink({
   uri: '/api/graphql',
   credentials: 'include',
+  fetchOptions: {
+    credentials: 'include',
+  },
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
