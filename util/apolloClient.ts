@@ -14,7 +14,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const httpLink = new HttpLink({
   uri: 'https://goodhabit.vercel.app/api/graphql',
-  credentials: 'include',
+  credentials: 'same-origin',
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
