@@ -5,8 +5,8 @@ import { setContext } from '@apollo/client/link/context'
 import Cotter from 'cotter'
 
 const httpLink = createHttpLink({
-  uri: 'https://goodhabit.vercel.app/api/graphql',
-  // uri: 'http://localhost:3000/api/graphql',
+  // uri: 'https://goodhabit.vercel.app/api/graphql',
+  uri: 'http://10.0.0.183:3000/api/graphql',
   credentials: 'include',
 })
 
