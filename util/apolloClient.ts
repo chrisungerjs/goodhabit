@@ -5,13 +5,13 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client'
 import { onError } from "apollo-link-error";
-import { createHttpLink, HttpLink } from 'apollo-link-http'
+import { HttpLink } from 'apollo-link-http'
 import { setContext } from '@apollo/client/link/context'
 import Cotter from 'cotter'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: '/api/graphql',
   credentials: 'include',
 })
@@ -58,6 +58,7 @@ const cache = new InMemoryCache({
 })
 
 const createApolloClient = () => {
+  
   return new ApolloClient({ cache, link })
 }
 
