@@ -13,8 +13,8 @@ import { useMemo } from 'react'
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const httpLink = new HttpLink({
-  uri: 'https://goodhabit.vercel.app/api/graphql',
-  credentials: 'same-origin',
+  uri: '/api/graphql',
+  credentials: 'include',
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
