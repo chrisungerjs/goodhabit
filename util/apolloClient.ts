@@ -13,7 +13,7 @@ import { useMemo } from 'react'
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const httpLink = new HttpLink({
-  uri: '/api/graphql',
+  uri: 'https://goodhabit.vercel.app/api/graphql',
   credentials: 'include',
 })
 

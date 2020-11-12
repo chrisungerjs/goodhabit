@@ -78,14 +78,13 @@ const context = async ({ req }) => {
   if (!valid) return { user: null }
   const decoded = new CotterAccessToken(token)
   const userEmail = decoded.payload?.identifier
-  console.log('userEmail:', userEmail)
   return { user: userEmail }
 }
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context,
+  context, 
 })
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })
