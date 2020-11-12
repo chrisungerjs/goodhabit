@@ -8,17 +8,13 @@ import { onError } from "apollo-link-error";
 import { HttpLink } from 'apollo-link-http'
 import { setContext } from '@apollo/client/link/context'
 import Cotter from 'cotter'
+import { useMemo } from 'react'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
-
-const test: HttpLink.Options = { }
 
 const httpLink = new HttpLink({
   uri: '/api/graphql',
   credentials: 'include',
-  fetchOptions: {
-    credentials: 'include',
-  },
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
@@ -62,16 +58,33 @@ const cache = new InMemoryCache({
   },
 })
 
-const createApolloClient = () => {
-  
-  return new ApolloClient({ cache, link })
+const createIsomorphicLink = () => {
+  if (typeof window === 'undefined') {
+    const { SchemaLink } = require('@apollo/client/link/schema')
+    const { typeDefs } = require('../util/schema')
+    return new SchemaLink({ typeDefs })
+  } else {
+    return link
+  }
 }
 
-const initializeApollo = () => {
-  apolloClient = apolloClient ?? createApolloClient()
+const createApolloClient = () => {
+  return new ApolloClient({
+    ssrMode: typeof window === 'undefined',
+    link: createIsomorphicLink(),
+    cache,
+  })
+}
+
+export const initializeApollo = (initialState = null) => {
+  const _apolloClient = apolloClient ?? createApolloClient()
+  if (initialState) _apolloClient.cache.restore(initialState)
+  if (typeof window === 'undefined') return _apolloClient
+  apolloClient = apolloClient ?? _apolloClient
   return apolloClient
 }
 
-export const useApollo = () => {
-  return initializeApollo()
+export const useApollo = (initialState: any) => {
+  const store = useMemo(() => initializeApollo(initialState), [initialState])
+  return store
 }

@@ -6,7 +6,7 @@ import '../styles/bootstrap.min.css'
 import '../styles/main.css'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const client = useApollo()
+  const client = useApollo(pageProps.initialApolloState)
   return (
     <ApolloProvider client={client}>
       <Provider>
