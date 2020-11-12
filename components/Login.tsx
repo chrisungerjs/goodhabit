@@ -10,7 +10,8 @@ const Login: React.FC = () => {
       cotter
         .signInWithLink()
         .showEmailForm()
-        .then(() => {
+        .then(response => {
+          console.log(response)
           dispatch({
             type: "LOGGED_IN_USER",
             payload: cotter.getLoggedInUser()

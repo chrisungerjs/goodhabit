@@ -6,7 +6,8 @@ import Cotter from 'cotter'
 
 const httpLink = createHttpLink({
   uri: 'https://goodhabit.vercel.app/api/graphql',
-  credentials: 'same-origin',
+  // uri: 'http://localhost:3000/api/graphql',
+  credentials: 'include',
 })
 
 const logLink = onError(({ graphQLErrors, networkError }) => {
@@ -21,12 +22,15 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = setContext(async (_, { headers }) => {
   let token = ''
+  console.log('headers', headers)
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   const response = await cotter.tokenHandler.getAccessToken()
   if (response?.token) token = response.token
+
   return {
     headers: {
       ...headers,
+
       authorization: token ? `Bearer ${token}` : '',
     },
   }

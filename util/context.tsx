@@ -9,8 +9,10 @@ const Context = createContext({} as any)
 const user = (state: any, action: any) => {
   switch (action.type) {
     case "LOGGED_IN_USER":
+      console.log("LOGGED_IN_USER")
       return { ...state, user: action.payload }
     case "LOGGED_OUT_USER":
+      console.log("LOGGED_OUT_USER")
       return { ...initialState }
     default:
       return state
