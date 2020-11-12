@@ -9,13 +9,15 @@
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "apollo-server-micro": "^2.18.2",
+    "@apollo/client": "^3.2.3", 
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
-    "apollo-server-micro": "^2.18.2",
     "bootstrap": "^4.5.3",
     "cotter": "^0.3.23",
     "cotter-node": "^0.1.2",
     "cotter-token-js": "^0.1.8",
+    "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
     "mongodb": "^3.6.2",
     "next": "9.5.4",
@@ -27,7 +29,6 @@
     "react-dom": "16.13.1"
   },
   "devDependencies": {
-    "@apollo/client": "^3.2.3",
     "@graphql-codegen/cli": "1.17.10",
     "@graphql-codegen/typescript": "1.17.10",
     "@graphql-codegen/typescript-graphql-files-modules": "1.18.0",

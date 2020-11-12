@@ -1,12 +1,18 @@
-import { ApolloClient, from, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  from,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client'
 import { onError } from "apollo-link-error";
-import { createHttpLink } from 'apollo-link-http'
+import { createHttpLink, HttpLink } from 'apollo-link-http'
 import { setContext } from '@apollo/client/link/context'
 import Cotter from 'cotter'
 
+let apolloClient: ApolloClient<NormalizedCacheObject>
+
 const httpLink = createHttpLink({
-  // uri: 'https://goodhabit.vercel.app/api/graphql',
-  uri: 'http://10.0.0.183:3000/api/graphql',
+  uri: '/api/graphql',
   credentials: 'include',
 })
 
@@ -22,15 +28,12 @@ const logLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = setContext(async (_, { headers }) => {
   let token = ''
-  console.log('headers', headers)
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   const response = await cotter.tokenHandler.getAccessToken()
   if (response?.token) token = response.token
-
   return {
     headers: {
       ...headers,
-
       authorization: token ? `Bearer ${token}` : '',
     },
   }
@@ -54,4 +57,15 @@ const cache = new InMemoryCache({
   },
 })
 
-export const client = new ApolloClient({ cache, link })
+const createApolloClient = () => {
+  return new ApolloClient({ cache, link })
+}
+
+const initializeApollo = () => {
+  apolloClient = apolloClient ?? createApolloClient()
+  return apolloClient
+}
+
+export const useApollo = () => {
+  return initializeApollo()
+}
