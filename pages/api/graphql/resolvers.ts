@@ -1,12 +1,7 @@
-import { ApolloServer } from 'apollo-server-micro'
-import Cors from 'micro-cors'
+import { connectToDatabase } from '../../../util/db'
 import { ObjectId } from 'mongodb'
-import { CotterValidateJWT } from 'cotter-node'
-import { CotterAccessToken } from 'cotter-token-js'
-import { connectToDatabase } from '../../util/db'
-import { typeDefs } from '../../util/schema'
 
-const resolvers = {
+export const resolvers = {
   Query: {
     habits: async (_parent, _args, { user }) => {
       if (!user) return
@@ -62,42 +57,3 @@ const resolvers = {
     },
   }
 }
-
-const context = async ({ req }) => {
-  if (!('authorization' in req.headers)) return { user: null }
-  const auth = await req.headers.authorization
-  const bearer = auth.split(' ')
-  const token = bearer[1]
-  let valid = false
-  try {
-    valid = await CotterValidateJWT(token)
-  } catch (err) {
-    console.log(err)
-    valid = false
-  }
-  if (!valid) return { user: null }
-  const decoded = new CotterAccessToken(token)
-  const userEmail = decoded.payload?.identifier
-  return { user: userEmail }
-}
-
-const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context, 
-})
-
-const handler = apolloServer.createHandler({ path: '/api/graphql' })
-
-export const config = {
-  api: {
-    bodyParser: false,
-  }
-}
-
-const cors = Cors({
-  allowMethods: ["POST", "OPTIONS"],
-  allowCredentials: true,
-})
-
-export default cors(handler)
