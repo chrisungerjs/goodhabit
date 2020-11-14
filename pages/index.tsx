@@ -50,7 +50,7 @@ const Home: React.FC = () => {
               +
             </Button>
           </h1>
-          {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} index={index} /> : null}
+          {isAddHabit ? <AddHabit setIsAddHabit={setIsAddHabit} index={-1} /> : null}
           <Today />
           <Logout />
         </>
