@@ -11,7 +11,7 @@ const handler = apolloServer.createHandler({ path: '/api/graphql' })
 export const config = { api: { bodyParser: false } }
 
 const cors = Cors({
-  allowMethods: ['POST', 'OPTIONS'],
+  allowMethods: ['GET', 'POST', 'OPTIONS'],
   allowCredentials: true,
 })
 
