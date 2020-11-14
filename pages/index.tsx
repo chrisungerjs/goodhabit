@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Cotter from 'cotter'
 import { Button } from 'react-bootstrap'
 import { Context } from '../util/context'
-import { useGetHabitsQuery } from '../generated/graphql'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
 import Today from '../components/Today'
@@ -25,8 +24,6 @@ const Home: React.FC = () => {
     }
   }, [])
   const [isAddHabit, setIsAddHabit] = useState(false)
-  const { data } = useGetHabitsQuery()
-  const index = data.habits?.length
   return (
     <section style={{
       maxInlineSize: '30rem',
