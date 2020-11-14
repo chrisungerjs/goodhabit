@@ -22,7 +22,7 @@ const Today: React.FC = () => {
   const [orderMap, setOrderMap] = useState(data.habits?.map((habit) => habit._id))
   const todayDate = archiveDate(new Date())
   const [habitStatusMap, setHabitStatusMap] = useState(
-    data.habits?.reduce((a, b) => (
+    data?.habits?.reduce((a, b) => (
       a[b._id] = {
         isComplete:
           b.history?.length && b.history[b.history.length - 1].date === todayDate
