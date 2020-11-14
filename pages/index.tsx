@@ -25,9 +25,7 @@ const Home: React.FC = () => {
     }
   }, [])
   const [isAddHabit, setIsAddHabit] = useState(false)
-  const { loading, error, data } = useGetHabitsQuery()
-  if (loading) return <>Loading...</>
-  if (error) return <>Error!</>
+  const { data } = useGetHabitsQuery()
   const index = data.habits?.length
   return (
     <section style={{
