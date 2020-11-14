@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react'
 import Head from 'next/head'
 import Cotter from 'cotter'
-import { Button, useAccordionToggle } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Context } from '../util/context'
 import { useGetHabitsQuery } from '../generated/graphql'
 import Login from '../components/Login'

@@ -1,18 +1,16 @@
 import { ApolloServer } from 'apollo-server-micro'
-import Cors from 'micro-cors'
 import { typeDefs } from '../../../util/schema'
 import { resolvers } from './resolvers'
 import { context } from './context'
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers, context })
-
-const handler = apolloServer.createHandler({ path: '/api/graphql' })
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context,
+  introspection: true,
+  playground: true,
+})
 
 export const config = { api: { bodyParser: false } }
 
-const cors = Cors({
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowCredentials: true,
-})
-
-export default cors(handler)
+export default apolloServer.createHandler({ path: '/api/graphql' })
