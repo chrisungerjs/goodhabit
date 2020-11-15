@@ -2,10 +2,11 @@ import { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import Cotter from 'cotter'
 import { Context } from '../util/context'
-import { resetCaches } from '@apollo/client'
+import { useGetHabitsQuery } from '../generated/graphql'
 
-const Logout: React.FC = () => {
+const Logout = () => {
   const { state, dispatch } = useContext(Context)
+  const { client } = useGetHabitsQuery()
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   return (
     <section style={{
@@ -21,7 +22,7 @@ const Logout: React.FC = () => {
           dispatch({
             type: "LOGGED_OUT_USER"
           })
-          resetCaches()
+          client.clearStore()
         }}
       >
         Log out {state.user.identifier}
