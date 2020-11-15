@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import Cotter from 'cotter'
 import { Context } from '../util/context'
 import { useGetHabitsQuery } from '../generated/graphql'
+import Router from 'next/router'
 
 const Login: React.FC = () => {
   const { dispatch } = useContext(Context)
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
           })
         })
         .catch(err => console.log(err))
-        client.resetStore()
+      Router.reload()
     } catch (err) {
       console.log(err)
     }
