@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb'
 export const resolvers = {
   Query: {
     habits: async (_parent, _args, { user }) => {
+      console.log(user)
       if (!user) return
       const { db } = await connectToDatabase()
       const allHabits = await db
