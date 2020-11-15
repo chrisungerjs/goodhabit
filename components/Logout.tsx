@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import Cotter from 'cotter'
 import { Context } from '../util/context'
-import { initializeApollo } from '../util/apolloClient'
 import { resetCaches } from '@apollo/client'
 
 const Logout: React.FC = () => {
@@ -22,7 +21,7 @@ const Logout: React.FC = () => {
           dispatch({
             type: "LOGGED_OUT_USER"
           })
-          initializeApollo(null)
+          resetCaches()
         }}
       >
         Log out {state.user.identifier}
