@@ -2,7 +2,7 @@ import { CotterValidateJWT } from 'cotter-node'
 import { CotterAccessToken } from 'cotter-token-js'
 
 export const context = async ({ req }) => {
-  console.log(req)
+  console.log(req.headers)
   if (!('authorization' in req.headers)) return { user: null }
   const auth = await req.headers.authorization
   const bearer = auth.split(' ')
