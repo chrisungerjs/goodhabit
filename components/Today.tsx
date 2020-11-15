@@ -17,9 +17,7 @@ import HabitCard from './HabitCard'
 
 const Today: React.FC = () => {
   const [updateHabit] = useUpdateHabitMutation()
-  const { error, loading, data } = useGetHabitsQuery()
-  if (loading) return <>Loading...</>
-  if (error) return <>Error: {error}</>
+  const { data } = useGetHabitsQuery()
   const [updateHistory] = useUpdateHistoryMutation()
   const [orderMap, setOrderMap] = useState(data.habits?.map((habit) => habit._id))
   const todayDate = archiveDate(new Date())

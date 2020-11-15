@@ -25,6 +25,9 @@ const Home: React.FC = () => {
     }
   }, [])
   const [isAddHabit, setIsAddHabit] = useState(false)
+  const { error, loading } = useGetHabitsQuery()
+  if (loading) return <>Loading...</>
+  if (error) return <>Error: {error}</>
   return (
     <section style={{
       maxInlineSize: '30rem',
@@ -57,7 +60,7 @@ const Home: React.FC = () => {
         </>
         ) : (
           <Login />
-          )}
+        )}
     </section>
   )
 }

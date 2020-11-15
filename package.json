@@ -17,6 +17,7 @@
     "cotter": "^0.3.23",
     "cotter-node": "^0.1.2",
     "cotter-token-js": "^0.1.8",
+    "graphql": "^15.4.0",
     "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
     "mongodb": "^3.6.2",
