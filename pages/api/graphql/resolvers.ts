@@ -6,13 +6,19 @@ export const resolvers = {
     habits: async (_parent, _args, { user }) => {
       console.log(user)
       if (!user) return
-      const { db } = await connectToDatabase()
-      const allHabits = await db
-        .collection('habit_db')
-        .find({ user })
-        .sort({ index: 1 })
-        .toArray()
-      return allHabits
+      try {
+        const { db } = await connectToDatabase()
+        const allHabits = await db
+          .collection('habit_db')
+          .find({ user })
+          .sort({ index: 1 })
+          .toArray()
+        console.log(allHabits)
+        return allHabits
+      } catch (err) {
+        console.log(err)
+        return
+      }
     }
   },
   Mutation: {
