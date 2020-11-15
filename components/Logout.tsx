@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import Cotter from 'cotter'
 import { Context } from '../util/context'
-import Router from 'next/router'
 
 const Logout = () => {
   const { state, dispatch } = useContext(Context)
@@ -22,7 +21,6 @@ const Logout = () => {
             dispatch({
               type: "LOGGED_OUT_USER"
             })
-            Router.reload()
           } catch (err) {
             console.log(err)
           }
