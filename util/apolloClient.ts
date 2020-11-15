@@ -32,7 +32,6 @@ const authLink = setContext(async (_, { headers }) => {
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   const response = await cotter.tokenHandler.getAccessToken()
   if (response?.token) token = response.token
-  console.log(response.token)
   return {
     headers: {
       ...headers,

@@ -4,7 +4,6 @@ import { ObjectId } from 'mongodb'
 export const resolvers = {
   Query: {
     habits: async (_parent, _args, { user }) => {
-      console.log(user)
       if (!user) return
       try {
         const { db } = await connectToDatabase()
@@ -13,7 +12,6 @@ export const resolvers = {
           .find({ user })
           .sort({ index: 1 })
           .toArray()
-        console.log(allHabits)
         return allHabits
       } catch (err) {
         console.log(err)

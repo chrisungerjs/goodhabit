@@ -11,12 +11,11 @@ const Login: React.FC = () => {
         .signInWithLink()
         .showEmailForm()
         .then(response => {
-          console.log(response)
+          console.log('response object:', response)
           dispatch({
             type: "LOGGED_IN_USER",
             payload: cotter.getLoggedInUser()
           })
-          
         })
         .catch(err => console.log(err))
     } catch (err) {
