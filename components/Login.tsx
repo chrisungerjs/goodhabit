@@ -16,6 +16,7 @@ const Login: React.FC = () => {
             type: "LOGGED_IN_USER",
             payload: cotter.getLoggedInUser()
           })
+          
         })
         .catch(err => console.log(err))
     } catch (err) {

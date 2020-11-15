@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap'
 import Cotter from 'cotter'
 import { Context } from '../util/context'
 
-const Logout: React.FC = () => {
+const Logout: React.FC = (props) => {
+  console.log(props)
   const { state, dispatch } = useContext(Context)
   const cotter = new Cotter('ca212de7-300a-4354-a178-24f474b3ae69')
   return (
