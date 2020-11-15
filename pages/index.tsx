@@ -7,6 +7,7 @@ import Login from '../components/Login'
 import Logout from '../components/Logout'
 import Today from '../components/Today'
 import AddHabit from '../components/AddHabit'
+import { useGetHabitsQuery } from '../generated/graphql'
 
 const Home: React.FC = () => {
   const { state, dispatch } = useContext(Context)
@@ -24,6 +25,10 @@ const Home: React.FC = () => {
     }
   }, [])
   const [isAddHabit, setIsAddHabit] = useState(false)
+  const { error, loading, data } = useGetHabitsQuery()
+  if (laoding) return <>Loading...</>
+  if (error) return <>Error: {error}</>
+  console.log(data)
   return (
     <section style={{
       maxInlineSize: '30rem',
