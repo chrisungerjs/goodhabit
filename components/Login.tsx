@@ -19,9 +19,9 @@ const Login: React.FC = () => {
             type: "LOGGED_IN_USER",
             payload: cotter.getLoggedInUser()
           })
+          Router.reload()
         })
         .catch(err => console.log(err))
-      Router.reload()
     } catch (err) {
       console.log(err)
     }
